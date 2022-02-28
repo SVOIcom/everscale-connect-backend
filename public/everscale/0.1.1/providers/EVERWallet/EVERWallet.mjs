@@ -18,7 +18,7 @@ import Contract from "./Contract.mjs";
 import {ProviderRpcClient, hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
 import loadTonWeb from "../TonWebLoader.mjs";
 
-const ever = new ProviderRpcClient();
+let ever = null;
 
 const NETWORKS = {
     main: 'main3.ton.dev',
@@ -70,6 +70,10 @@ class EVERWallet extends EventEmitter3 {
     }) {
 
         super();
+
+        ever =  new ProviderRpcClient();
+
+
         this.options = options;
         this.provider = null;
         this.ever = null
