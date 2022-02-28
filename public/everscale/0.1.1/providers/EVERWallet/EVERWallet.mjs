@@ -15,7 +15,7 @@
 
 
 import Contract from "./Contract.mjs";
-import ton, {hasTonProvider} from './ton-inpage-provider';
+import ton, {hasTonProvider} from './ton-inpage-provider/dist/index.js';
 import loadTonWeb from "../TonWebLoader.mjs";
 
 const NETWORKS = {
