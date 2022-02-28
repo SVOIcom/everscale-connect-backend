@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUniqueId = exports.mergeTransactions = exports.AddressLiteral = exports.Address = void 0;
 /**
  * @category Utils
  */
-class Address {
+export class Address {
     constructor(address) {
         this._address = address;
     }
@@ -20,16 +17,14 @@ class Address {
         }
     }
 }
-exports.Address = Address;
 /**
  * @category Utils
  */
-class AddressLiteral extends Address {
+export class AddressLiteral extends Address {
     constructor(address) {
         super(address);
     }
 }
-exports.AddressLiteral = AddressLiteral;
 /**
  * Modifies knownTransactions array, merging it with new transactions.
  * All arrays are assumed to be sorted by descending logical time.
@@ -42,7 +37,7 @@ exports.AddressLiteral = AddressLiteral;
  *
  * @category Utils
  */
-function mergeTransactions(knownTransactions, newTransactions, info) {
+export function mergeTransactions(knownTransactions, newTransactions, info) {
     if (info.batchType == 'old') {
         knownTransactions.push(...newTransactions);
         return knownTransactions;
@@ -65,11 +60,9 @@ function mergeTransactions(knownTransactions, newTransactions, info) {
     knownTransactions.splice(i, 0, ...newTransactions);
     return knownTransactions;
 }
-exports.mergeTransactions = mergeTransactions;
 const MAX = 4294967295;
 let idCounter = Math.floor(Math.random() * MAX);
-function getUniqueId() {
+export function getUniqueId() {
     idCounter = (idCounter + 1) % MAX;
     return idCounter;
 }
-exports.getUniqueId = getUniqueId;

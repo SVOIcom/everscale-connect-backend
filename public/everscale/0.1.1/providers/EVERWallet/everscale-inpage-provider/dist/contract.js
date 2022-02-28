@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TvmException = exports.Contract = void 0;
-const models_1 = require("./models");
+import { serializeTokensObject, parseTransaction, parseTokensObject, serializeTransaction, } from './models';
 /**
  * @category Contract
  */
-class Contract {
+export class Contract {
     constructor(provider, abi, address) {
         if (!Array.isArray(abi.functions)) {
             throw new Error('Invalid abi. Functions array required');
@@ -31,7 +28,7 @@ class Contract {
                 this.abi = abi;
                 this.address = address;
                 this.method = method;
-                this.params = (0, models_1.serializeTokensObject)(params);
+                this.params = serializeTokensObject(params);
             }
             async send(args) {
                 const { transaction } = await this.provider.rawApi.sendMessage({
@@ -45,7 +42,7 @@ class Contract {
                         params: this.params,
                     },
                 });
-                return (0, models_1.parseTransaction)(transaction);
+                return parseTransaction(transaction);
             }
             async sendWithResult(args) {
                 const subscriber = this.provider.createSubscriber();
@@ -95,13 +92,13 @@ class Contract {
                     let output = undefined;
                     try {
                         const result = await this.provider.rawApi.decodeTransaction({
-                            transaction: (0, models_1.serializeTransaction)(childTransaction),
+                            transaction: serializeTransaction(childTransaction),
                             abi: this.abi,
                             method: this.method,
                         });
                         if (result != null) {
                             output = this.functionAbi.outputs != null
-                                ? (0, models_1.parseTokensObject)(this.functionAbi.outputs, result.output)
+                                ? parseTokensObject(this.functionAbi.outputs, result.output)
                                 : {};
                         }
                     }
@@ -148,8 +145,8 @@ class Contract {
                     local: args.local,
                 });
                 return {
-                    transaction: (0, models_1.parseTransaction)(transaction),
-                    output: output != null ? (0, models_1.parseTokensObject)(this.functionAbi.outputs, output) : undefined,
+                    transaction: parseTransaction(transaction),
+                    output: output != null ? parseTokensObject(this.functionAbi.outputs, output) : undefined,
                 };
             }
             async call(args = {}) {
@@ -167,7 +164,7 @@ class Contract {
                     throw new TvmException(code);
                 }
                 else {
-                    return (0, models_1.parseTokensObject)(this.functionAbi.outputs, output);
+                    return parseTokensObject(this.functionAbi.outputs, output);
                 }
             }
         }
@@ -190,7 +187,7 @@ class Contract {
     async decodeTransaction(args) {
         try {
             const result = await this._provider.rawApi.decodeTransaction({
-                transaction: (0, models_1.serializeTransaction)(args.transaction),
+                transaction: serializeTransaction(args.transaction),
                 abi: this._abi,
                 method: args.methods,
             });
@@ -201,8 +198,8 @@ class Contract {
             const rawAbi = this._functions[method];
             return {
                 method,
-                input: rawAbi.inputs != null ? (0, models_1.parseTokensObject)(rawAbi.inputs, input) : {},
-                output: rawAbi.outputs != null ? (0, models_1.parseTokensObject)(rawAbi.outputs, output) : {},
+                input: rawAbi.inputs != null ? parseTokensObject(rawAbi.inputs, input) : {},
+                output: rawAbi.outputs != null ? parseTokensObject(rawAbi.outputs, output) : {},
             };
         }
         catch (_) {
@@ -212,7 +209,7 @@ class Contract {
     async decodeTransactionEvents(args) {
         try {
             const { events } = await this._provider.rawApi.decodeTransactionEvents({
-                transaction: (0, models_1.serializeTransaction)(args.transaction),
+                transaction: serializeTransaction(args.transaction),
                 abi: this._abi,
             });
             const result = [];
@@ -220,7 +217,7 @@ class Contract {
                 const rawAbi = this._events[event];
                 result.push({
                     event,
-                    data: rawAbi.inputs != null ? (0, models_1.parseTokensObject)(rawAbi.inputs, data) : {},
+                    data: rawAbi.inputs != null ? parseTokensObject(rawAbi.inputs, data) : {},
                 });
             }
             return result;
@@ -244,7 +241,7 @@ class Contract {
             const rawAbi = this._functions[method];
             return {
                 method,
-                input: rawAbi.inputs != null ? (0, models_1.parseTokensObject)(rawAbi.inputs, input) : {},
+                input: rawAbi.inputs != null ? parseTokensObject(rawAbi.inputs, input) : {},
             };
         }
         catch (_) {
@@ -265,7 +262,7 @@ class Contract {
             const rawAbi = this._functions[method];
             return {
                 method,
-                output: rawAbi.outputs != null ? (0, models_1.parseTokensObject)(rawAbi.outputs, output) : {},
+                output: rawAbi.outputs != null ? parseTokensObject(rawAbi.outputs, output) : {},
             };
         }
         catch (_) {
@@ -273,14 +270,12 @@ class Contract {
         }
     }
 }
-exports.Contract = Contract;
 /**
  * @category Contract
  */
-class TvmException extends Error {
+export class TvmException extends Error {
     constructor(code) {
         super(`TvmException: ${code}`);
         this.code = code;
     }
 }
-exports.TvmException = TvmException;

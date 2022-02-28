@@ -1,80 +1,70 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseTokensObject = exports.serializeTokensObject = exports.parseAccountInteraction = exports.parsePermissions = exports.parseMessage = exports.serializeMessage = exports.parseTransaction = exports.serializeTransaction = void 0;
-const utils_1 = require("./utils");
+import { Address } from './utils';
 /**
  * @category Models
  */
-function serializeTransaction(transaction) {
+export function serializeTransaction(transaction) {
     return {
         ...transaction,
         inMessage: serializeMessage(transaction.inMessage),
         outMessages: transaction.outMessages.map(serializeMessage),
     };
 }
-exports.serializeTransaction = serializeTransaction;
 /**
  * @category Models
  */
-function parseTransaction(transaction) {
+export function parseTransaction(transaction) {
     return {
         ...transaction,
         inMessage: parseMessage(transaction.inMessage),
         outMessages: transaction.outMessages.map(parseMessage),
     };
 }
-exports.parseTransaction = parseTransaction;
 /**
  * @category Models
  */
-function serializeMessage(message) {
+export function serializeMessage(message) {
     return {
         ...message,
         src: message.src ? message.src.toString() : undefined,
         dst: message.dst ? message.dst.toString() : undefined,
     };
 }
-exports.serializeMessage = serializeMessage;
 /**
  * @category Models
  */
-function parseMessage(message) {
+export function parseMessage(message) {
     return {
         ...message,
-        src: message.src ? new utils_1.Address(message.src) : undefined,
-        dst: message.dst ? new utils_1.Address(message.dst) : undefined,
+        src: message.src ? new Address(message.src) : undefined,
+        dst: message.dst ? new Address(message.dst) : undefined,
     };
 }
-exports.parseMessage = parseMessage;
 /**
  * @category Models
  */
-function parsePermissions(permissions) {
+export function parsePermissions(permissions) {
     return {
         ...permissions,
         accountInteraction: permissions.accountInteraction ? parseAccountInteraction(permissions.accountInteraction) : undefined,
     };
 }
-exports.parsePermissions = parsePermissions;
 /**
  * @category Models
  */
-function parseAccountInteraction(accountInteraction) {
+export function parseAccountInteraction(accountInteraction) {
     return {
         ...accountInteraction,
-        address: new utils_1.Address(accountInteraction.address),
+        address: new Address(accountInteraction.address),
     };
 }
-exports.parseAccountInteraction = parseAccountInteraction;
 /**
  * @category Models
  */
-function serializeTokensObject(object) {
+export function serializeTokensObject(object) {
     return serializeTokenValue(object);
 }
-exports.serializeTokensObject = serializeTokensObject;
 function serializeTokenValue(token) {
-    if (token instanceof utils_1.Address) {
+    if (token instanceof Address) {
         return token.toString();
     }
     if (Array.isArray(token)) {
@@ -98,14 +88,13 @@ function serializeTokenValue(token) {
 /**
  * @category Models
  */
-function parseTokensObject(params, object) {
+export function parseTokensObject(params, object) {
     const result = {};
     for (const param of params) {
         result[param.name] = parseTokenValue(param, object[param.name]);
     }
     return result;
 }
-exports.parseTokensObject = parseTokensObject;
 function parseTokenValue(param, token) {
     if (!param.type.startsWith('map')) {
         const isArray = param.type.endsWith('[]');
@@ -142,7 +131,7 @@ function parseTokenValue(param, token) {
             return result;
         }
         else if (rawType == 'address') {
-            return new utils_1.Address(token);
+            return new Address(token);
         }
         else {
             return token;

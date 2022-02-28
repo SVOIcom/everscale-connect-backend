@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Subscriber = void 0;
-const utils_1 = require("./utils");
+import { getUniqueId } from './utils';
 /**
  * @category Stream
  */
-class Subscriber {
+export class Subscriber {
     constructor(provider) {
         this.provider = provider;
         this.subscriptions = {};
@@ -21,7 +18,7 @@ class Subscriber {
      * Returns stream of old transactions
      */
     oldTransactions(address, filter) {
-        const id = (0, utils_1.getUniqueId)();
+        const id = getUniqueId();
         return new StreamImpl(async (onData, onEnd) => {
             const scanner = new UnorderedTransactionsScanner(this.provider, {
                 address,
@@ -70,7 +67,7 @@ class Subscriber {
         }).concat(Object.values(scanners).map((item) => item.stop())));
     }
     _addSubscription(event, address) {
-        const id = (0, utils_1.getUniqueId)();
+        const id = getUniqueId();
         return new StreamImpl((onData, onEnd) => {
             let subscriptions = this.subscriptions[address.toString()];
             let eventData = subscriptions === null || subscriptions === void 0 ? void 0 : subscriptions[event];
@@ -141,7 +138,6 @@ class Subscriber {
         }, identity);
     }
 }
-exports.Subscriber = Subscriber;
 async function identity(event, handler) {
     await handler(event);
 }

@@ -1,41 +1,12 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProviderNotInitializedException = exports.ProviderNotFoundException = exports.ProviderRpcClient = exports.hasEverscaleProvider = exports.mergeTransactions = exports.AddressLiteral = exports.Address = exports.Subscriber = void 0;
-const models_1 = require("./models");
-const utils_1 = require("./utils");
-const subscriber = __importStar(require("./stream"));
-const contract = __importStar(require("./contract"));
-__exportStar(require("./api"), exports);
-__exportStar(require("./models"), exports);
-__exportStar(require("./contract"), exports);
-var stream_1 = require("./stream");
-Object.defineProperty(exports, "Subscriber", { enumerable: true, get: function () { return stream_1.Subscriber; } });
-var utils_2 = require("./utils");
-Object.defineProperty(exports, "Address", { enumerable: true, get: function () { return utils_2.Address; } });
-Object.defineProperty(exports, "AddressLiteral", { enumerable: true, get: function () { return utils_2.AddressLiteral; } });
-Object.defineProperty(exports, "mergeTransactions", { enumerable: true, get: function () { return utils_2.mergeTransactions; } });
+import { parsePermissions, parseTokensObject, parseTransaction, serializeTokensObject, } from './models';
+import { Address, getUniqueId, } from './utils';
+import * as subscriber from './stream';
+import * as contract from './contract';
+export * from './api';
+export * from './models';
+export * from './contract';
+export { Subscriber } from './stream';
+export { Address, AddressLiteral, mergeTransactions } from './utils';
 let ensurePageLoaded;
 if (document.readyState == 'complete') {
     ensurePageLoaded = Promise.resolve();
@@ -50,16 +21,15 @@ else {
 /**
  * @category Provider
  */
-async function hasEverscaleProvider() {
+export async function hasEverscaleProvider() {
     await ensurePageLoaded;
     return window.__hasEverscaleProvider === true ||
         window.hasTonProvider === true;
 }
-exports.hasEverscaleProvider = hasEverscaleProvider;
 /**
  * @category Provider
  */
-class ProviderRpcClient {
+export class ProviderRpcClient {
     constructor(properties = {}) {
         this._subscriptions = {};
         this._contractSubscriptions = {};
@@ -207,7 +177,7 @@ class ProviderRpcClient {
         const result = await this._api.requestPermissions({
             permissions: args.permissions,
         });
-        return (0, models_1.parsePermissions)(result);
+        return parsePermissions(result);
     }
     /**
      * Updates `accountInteraction` permission value
@@ -258,7 +228,7 @@ class ProviderRpcClient {
             }
         }
         let existingSubscriptions = this._getEventSubscriptions(eventName);
-        const id = (0, utils_1.getUniqueId)();
+        const id = getUniqueId();
         switch (eventName) {
             case 'connected':
             case 'disconnected':
@@ -344,7 +314,7 @@ class ProviderRpcClient {
         const state = await this._api.getProviderState();
         return {
             ...state,
-            permissions: (0, models_1.parsePermissions)(state.permissions),
+            permissions: parsePermissions(state.permissions),
         };
     }
     /**
@@ -369,7 +339,7 @@ class ProviderRpcClient {
             ...args,
         });
         return {
-            accounts: accounts.map((address) => new utils_1.Address(address)),
+            accounts: accounts.map((address) => new Address(address)),
             continuation,
         };
     }
@@ -385,7 +355,7 @@ class ProviderRpcClient {
             address: args.address.toString(),
         });
         return {
-            transactions: transactions.map(models_1.parseTransaction),
+            transactions: transactions.map(parseTransaction),
             continuation,
             info,
         };
@@ -401,7 +371,7 @@ class ProviderRpcClient {
             ...args,
         });
         return {
-            transaction: transaction ? (0, models_1.parseTransaction)(transaction) : undefined,
+            transaction: transaction ? parseTransaction(transaction) : undefined,
         };
     }
     /**
@@ -414,9 +384,9 @@ class ProviderRpcClient {
         const { address } = await this._api.getExpectedAddress({
             abi: JSON.stringify(abi),
             ...args,
-            initParams: (0, models_1.serializeTokensObject)(args.initParams),
+            initParams: serializeTokensObject(args.initParams),
         });
-        return new utils_1.Address(address);
+        return new Address(address);
     }
     /**
      * Computes hash of base64 encoded BOC
@@ -438,7 +408,7 @@ class ProviderRpcClient {
     async packIntoCell(args) {
         return await this._api.packIntoCell({
             structure: args.structure,
-            data: (0, models_1.serializeTokensObject)(args.data),
+            data: serializeTokensObject(args.data),
         });
     }
     /**
@@ -453,7 +423,7 @@ class ProviderRpcClient {
             structure: args.structure,
         });
         return {
-            data: (0, models_1.parseTokensObject)(args.structure, data),
+            data: parseTokensObject(args.structure, data),
         };
     }
     /**
@@ -575,11 +545,11 @@ class ProviderRpcClient {
             payload: args.payload ? ({
                 abi: args.payload.abi,
                 method: args.payload.method,
-                params: (0, models_1.serializeTokensObject)(args.payload.params),
+                params: serializeTokensObject(args.payload.params),
             }) : undefined,
         });
         return {
-            transaction: (0, models_1.parseTransaction)(transaction),
+            transaction: parseTransaction(transaction),
         };
     }
     _registerEventHandlers(provider) {
@@ -587,17 +557,17 @@ class ProviderRpcClient {
             'connected': (data) => data,
             'disconnected': (data) => data,
             'transactionsFound': (data) => ({
-                address: new utils_1.Address(data.address),
-                transactions: data.transactions.map(models_1.parseTransaction),
+                address: new Address(data.address),
+                transactions: data.transactions.map(parseTransaction),
                 info: data.info,
             }),
             'contractStateChanged': (data) => ({
-                address: new utils_1.Address(data.address),
+                address: new Address(data.address),
                 state: data.state,
             }),
             'networkChanged': data => data,
             'permissionsChanged': (data) => ({
-                permissions: (0, models_1.parsePermissions)(data.permissions),
+                permissions: parsePermissions(data.permissions),
             }),
             'loggedOut': data => data,
         };
@@ -623,25 +593,22 @@ class ProviderRpcClient {
         return existingSubscriptions;
     }
 }
-exports.ProviderRpcClient = ProviderRpcClient;
 /**
  * @category Provider
  */
-class ProviderNotFoundException extends Error {
+export class ProviderNotFoundException extends Error {
     constructor() {
         super('Everscale provider was not found');
     }
 }
-exports.ProviderNotFoundException = ProviderNotFoundException;
 /**
  * @category Provider
  */
-class ProviderNotInitializedException extends Error {
+export class ProviderNotInitializedException extends Error {
     constructor() {
         super('Everscale provider was not initialized yet');
     }
 }
-exports.ProviderNotInitializedException = ProviderNotInitializedException;
 function foldSubscriptions(subscriptions, except) {
     const total = { state: false, transactions: false };
     const withoutExcluded = Object.assign({}, total);
