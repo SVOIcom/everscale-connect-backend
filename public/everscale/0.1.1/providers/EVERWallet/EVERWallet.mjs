@@ -15,7 +15,7 @@
 
 
 import Contract from "./Contract.mjs";
-import * as everwallet from './everscale-inpage-provider/dist/index.js';
+import {ProviderRpcClient, hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
 import loadTonWeb from "../TonWebLoader.mjs";
 
 console.log('EVERWALLET', everwallet);
