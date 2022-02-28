@@ -1,5 +1,5 @@
 
-import {UTILS as utils} from "https://tonconnect.svoi.dev/freeton/getProvider.mjs";
+import {UTILS as utils} from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
 
 const EMPTY_ADDRESS = "0:0000000000000000000000000000000000000000000000000000000000000000";
 
@@ -19,7 +19,7 @@ class ERC721 {
 
 
     async init(address) {
-        this.contract = await this.ton.loadContract('https://tonconnect.svoi.dev/contracts/abi/ERC721.abi.json', address);
+        this.contract = await this.ton.loadContract('https://everscale-connect.svoi.dev/contracts/abi/ERC721.abi.json', address);
         return this;
     }
 

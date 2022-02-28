@@ -90,6 +90,9 @@ if(cluster.isMaster) {
         App.expressApp.use('/ton', express.static('dist'));
         App.expressApp.use('/tonclient.wasm', express.static('dist/tonclient.wasm'));
 
+
+        App.expressApp.use('/examples', express.static('examples'));
+
         const Twig = require('twig');
         const Utils = require('./modules/utils/utils')
         Twig.extendFilter("shortenPubkey", (text) => Utils.shortenPubkey(text));
