@@ -1,4 +1,4 @@
-import { Address } from './utils';
+import { Address } from './utils.js';
 /**
  * @category Models
  */

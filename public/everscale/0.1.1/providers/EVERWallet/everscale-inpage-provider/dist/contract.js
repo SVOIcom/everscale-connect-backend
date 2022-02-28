@@ -1,4 +1,4 @@
-import { serializeTokensObject, parseTransaction, parseTokensObject, serializeTransaction, } from './models';
+import { serializeTokensObject, parseTransaction, parseTokensObject, serializeTransaction, } from './models.js';
 /**
  * @category Contract
  */
