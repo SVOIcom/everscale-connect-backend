@@ -15,7 +15,7 @@
 
 
 import Contract from "./Contract.mjs";
-import {hasEverscaleProvider, ProviderRpcClient} from './everscale-inpage-provider/dist/index.js';
+import {hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
 import loadTonWeb from "../TonWebLoader.mjs";
 
 const ever = new ProviderRpcClient();
