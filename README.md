@@ -1,59 +1,84 @@
-# TonConnect - Universal FreeTON web provider
+# Everscale-Connect - Universal Everscale web provider
 
-Provider available at https://tonconnect.svoi.dev/freeton/getProvider.mjs
+Provider available at https://everscale-connect.svoi.dev/everscale/getProvider.mjs
+
+## Connection
+
+### Direct web
+
+
+If you are using pure ES6 imports you can use importing directly from the link https://everscale-connect.svoi.dev/everscale/getProvider.mjs
+
+Otherwise, you can use a wrapper script to activate module functionality in the global scope:
+
+```html
+<script src="https://everscale-connect.svoi.dev/everscale/index.mjs" type="module"></script>
+
+<script>
+    //Now we have window.EverscaleConnect available and can use it
+    let EVER = await EverscaleConnect.getProvider({}, EverscaleConnect.PROVIDERS.EverscaleWallet);
+    //Do you Everscale stuff
+</script>
+```
+
+### Webpack
+Due to the specific factors of the Everscale network connection, this module **does not support** webpack packaging.
+
+You can try to download the module directly and import it into the webpack project, but most likely you will lose the availability of the EverWeb provider which provides a direct connection to the web from a browser.
+
 
 ## Usage example
 
 ```javascript
-import {default as getProvider, PROVIDERS, UTILS} from "https://tonconnect.svoi.dev/freeton/getProvider.mjs";
+import {default as getProvider, PROVIDERS, UTILS} from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
 
     window.getProvider = getProvider;
     window.PROVIDERS = PROVIDERS;
     window.UTILS = UTILS;
 
 
-    const DEFAULT_WALLET = PROVIDERS.CrystalWallet;
+    const DEFAULT_WALLET = PROVIDERS.EVERWallet;
 
-    let TON = null;
+    let EVER = null;
     try {
 
         //Initialize provider
-        TON = await getProvider({}, PROVIDERS.TonBackendWeb);
-        await TON.requestPermissions();
-        await TON.start();
+        EVER = await getProvider({}, PROVIDERS.EverBackendWeb);
+        await EVER.requestPermissions();
+        await EVER.start();
     } catch (e) {
         console.log(e);
-        TON = await getProvider({
+        EVER = await getProvider({
             network: 'main',
-            networkServer: 'main2.ton.dev'
-        }, PROVIDERS.TonBackendWeb);
-        await TON.requestPermissions();
-        await TON.start();
+            networkServer: 'alwaysonlineevermainnode.svoi.dev'
+        }, PROVIDERS.EverBackendWeb);
+        await EVER.requestPermissions();
+        await EVER.start();
 
     }
-    window.TON = TON;
+    window.EVER = EVER;
 
-    console.log('CURRENT WALLET', await TON.getWallet());
+    console.log('CURRENT WALLET', await EVER.getWallet());
 ```
 
 See [examples](examples) for mor information
 
 ## Providers
 
-TonConnect now supports these providers and extensions:
+Everscale-Connect now supports these providers and extensions:
 
-* [TONWallet](https://tonwallet.io) by SVOI.dev
-* [TON Crystal Wallet](https://l1.broxus.com/freeton/wallet) by Broxus
-* Internal: TonWeb - signing transactions and fetch blockchain information from webpage
-* Internal: TonBackendWeb - only for fetching information from smart contracts
+* [EverscaleWallet](https://everscalewallet.com/) by SVOI.dev
+* [EVER Wallet](https://l1.broxus.com/everscale/wallet) by Broxus
+* Internal: EverWeb - signing transactions and fetch blockchain information from webpage
+* Internal: EverBackendWeb - only for fetching information from smart contracts
 
-In progress:
+Deprecated providers:
 * [ExtraTon](https://extraton.io) 
 
 ## Projects using TonConnect
 
 * Upcoming project...
-* [TonPunks.com](https://tonpunks.com)
+* [ScalePunks.com](https://scalepunks.com)
 * [swap.block-chain.com](swap.block-chain.com) (elder version)
 
 ## Info

@@ -1,26 +1,34 @@
-/*_______ ____  _   _  _____
- |__   __/ __ \| \ | |/ ____|
-    | | | |  | |  \| | (_____      ____ _ _ __
-    | | | |  | | . ` |\___ \ \ /\ / / _` | '_ \
-    | | | |__| | |\  |____) \ V  V / (_| | |_) |
-    |_|  \____/|_| \_|_____/ \_/\_/ \__,_| .__/
-                                         | |
-                                         |_| */
+/*
+
+  ________      ________ _____   _____  _____          _      ______
+ |  ____\ \    / /  ____|  __ \ / ____|/ ____|   /\   | |    |  ____|
+ | |__   \ \  / /| |__  | |__) | (___ | |       /  \  | |    | |__
+ |  __|   \ \/ / |  __| |  _  / \___ \| |      / /\ \ | |    |  __|
+ | |____   \  /  | |____| | \ \ ____) | |____ / ____ \| |____| |____
+ |______|   \/   |______|_|  \_\_____/ \_____/_/    \_\______|______|
+  / ____|                          | |
+ | |     ___  _ __  _ __   ___  ___| |_
+ | |    / _ \| '_ \| '_ \ / _ \/ __| __|
+ | |___| (_) | | | | | | |  __/ (__| |_
+  \_____\___/|_| |_|_| |_|\___|\___|\__|
+ */
 /**
- * @name TONSwap project - tonswap.com
+ * @name Everscale connection provider
  * @copyright SVOI.dev Labs - https://svoi.dev
  * @license Apache-2.0
+ * @version 1.0
  */
 const _App = require('./_App');
 
+const DEFAULT_SERVER = 'eri01.main.everos.dev'
 
-class TonBackendProvider extends _App {
+class EverscaleBackendProvider extends _App {
 
     async index() {
-        return 'TonBackendProvider';
+        return 'EverscaleBackendProvider';
     }
 
-    async runLocal(networkServer = 'main2.ton.dev', address, method) {
+    async runLocal(networkServer = DEFAULT_SERVER, address, method) {
         let EVER = await require('../modules/utils/EVER')(networkServer)
 
         try {
@@ -34,7 +42,7 @@ class TonBackendProvider extends _App {
 
     }
 
-    async payload(networkServer = 'main2.ton.dev',  method) {
+    async payload(networkServer = DEFAULT_SERVER, method) {
         let EVER = await require('../modules/utils/EVER')(networkServer)
 
         try {
@@ -67,4 +75,4 @@ class TonBackendProvider extends _App {
 
 }
 
-module.exports = TonBackendProvider;
+module.exports = EverscaleBackendProvider;

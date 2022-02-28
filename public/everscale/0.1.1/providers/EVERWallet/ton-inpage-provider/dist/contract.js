@@ -1,5 +1,5 @@
-import { serializeTokensObject, parseTransaction, parseTokensObject, serializeTransaction } from './models.js';
-import provider from './index.js';
+import { serializeTokensObject, parseTransaction, parseTokensObject, serializeTransaction } from './models.d.ts';
+import provider from './index.d.ts';
 /**
  * @category Contract
  */

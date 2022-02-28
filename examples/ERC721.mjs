@@ -10,7 +10,7 @@ const EMPTY_ADDRESS = "0:0000000000000000000000000000000000000000000000000000000
 class ERC721 {
     /**
      *
-     * @param {TonWallet} ton
+     * @param {EverscaleWallet} ton
      */
     constructor(ton) {
         this.ton = ton;

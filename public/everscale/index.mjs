@@ -20,8 +20,16 @@
  */
 
 
-//Resolve version
-import {default as getProvider, PROVIDERS, UTILS, CONSTANTS} from "../everscale/0.1.1/getProvider.mjs"
+import {default as getProvider, PROVIDERS, UTILS, CONSTANTS} from "./getProvider.mjs";
 
-//Export
-export {getProvider as default, PROVIDERS, UTILS, CONSTANTS};
+/**
+ * If everscaleConnect not defined
+ */
+if(!window.EverscaleConnect) {
+    window.EverscaleConnect = {
+        getProvider,
+        PROVIDERS,
+        UTILS,
+        CONSTANTS: CONSTANTS
+    };
+}

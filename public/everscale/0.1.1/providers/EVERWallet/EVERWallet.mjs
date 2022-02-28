@@ -15,7 +15,7 @@
 
 
 import Contract from "./Contract.mjs";
-import ton, {hasTonProvider} from './ton-inpage-provider/dist/index.js';
+import ton, {hasTonProvider} from './ton-inpage-provider';
 import loadTonWeb from "../TonWebLoader.mjs";
 
 const NETWORKS = {
@@ -61,7 +61,7 @@ const EXPLORERS = {
 /**
  * CrystalWallet provider class
  */
-class CrystalWallet extends EventEmitter3 {
+class EVERWallet extends EventEmitter3 {
     constructor(options = {
         network: 'main',
         networkServer: '',
@@ -358,4 +358,4 @@ class CrystalWallet extends EventEmitter3 {
 }
 
 
-export default CrystalWallet;
+export default EVERWallet;

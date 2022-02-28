@@ -38,7 +38,7 @@ const EXPLORERS = {
 /**
  * extraTON provider class
  */
-class TonWallet extends EventEmitter3 {
+class EverscaleWallet extends EventEmitter3 {
     constructor(options = {provider: window.freeton}) {
 
         /*try {
@@ -324,4 +324,4 @@ class TonWallet extends EventEmitter3 {
     }
 }
 
-export default TonWallet;
+export default EverscaleWallet;

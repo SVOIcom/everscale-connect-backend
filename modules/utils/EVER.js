@@ -1,28 +1,28 @@
-let tonInstances = {};
+let everInstances = {};
 
 module.exports = async function getTonInstance(network = 'main2.ton.dev') {
-    if(tonInstances[network]) {
-        return tonInstances[network];
+    if(everInstances[network]) {
+        return everInstances[network];
     }
 
-    const {TonClient} = require('@tonclient/core');
-    const {libNode} = require("@tonclient/lib-node");
+    const {TonClient} = require('@eversdk/core');
+    const {libNode} = require("@eversdk/lib-node");
     TonClient.useBinaryLibrary(libNode);
 
-    let TON = tonInstances[network] = new TonClient({
+    let EVER = everInstances[network] = new TonClient({
         network: {
             server_address: network
         }
     });
 
-    tonInstances[network].runLocal = async (address, abi, functionName, input = {})=>{
-        const account = (await TON.net.query_collection({
+    everInstances[network].runLocal = async (address, abi, functionName, input = {}) => {
+        const account = (await EVER.net.query_collection({
             collection: 'accounts',
-            filter: { id: { eq: address } },
+            filter: {id: {eq: address}},
             result: 'boc'
         })).result[0].boc;
 
-        const message = await TON.abi.encode_message({
+        const message = await EVER.abi.encode_message({
             abi: {
                 type: 'Json',
                 value: (abi)
@@ -37,7 +37,7 @@ module.exports = async function getTonInstance(network = 'main2.ton.dev') {
             }
         });
 
-        let response = await TON.tvm.run_tvm({
+        let response = await EVER.tvm.run_tvm({
             message: message.message,
             account: account,
             abi: {
@@ -49,5 +49,5 @@ module.exports = async function getTonInstance(network = 'main2.ton.dev') {
         return response.decoded.output;
     }
 
-    return tonInstances[network]
+    return everInstances[network]
 }

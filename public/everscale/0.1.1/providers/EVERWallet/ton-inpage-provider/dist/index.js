@@ -1,12 +1,12 @@
-import { parsePermissions, parseTokensObject, parseTransaction, serializeTokensObject } from './models.js';
-import { Address, getUniqueId } from './utils.js';
-import { Subscriber } from './stream.js';
-import { Contract } from './contract.js';
-export * from './api.js';
-export * from './models.js';
-export { Contract, TvmException } from './contract.js';
-export { Subscriber } from './stream.js';
-export { Address, AddressLiteral, mergeTransactions } from './utils.js';
+import { parsePermissions, parseTokensObject, parseTransaction, serializeTokensObject } from './models.d.ts';
+import { Address, getUniqueId } from './utils.d.ts';
+import { Subscriber } from './stream.d.ts';
+import { Contract } from './contract.d.ts';
+export * from './api.d.ts';
+export * from './models.d.ts';
+export { Contract, TvmException } from './contract.d.ts';
+export { Subscriber } from './stream.d.ts';
+export { Address, AddressLiteral, mergeTransactions } from './utils.d.ts';
 let ensurePageLoaded;
 if (document.readyState == 'complete') {
     ensurePageLoaded = Promise.resolve();

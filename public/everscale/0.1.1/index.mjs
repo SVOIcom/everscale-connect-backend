@@ -18,10 +18,16 @@
  * @license Apache-2.0
  * @version 1.0
  */
+import {default as getProvider, PROVIDERS, UTILS, CONSTANTS} from "./getProvider.mjs";
 
-
-//Resolve version
-import {default as getProvider, PROVIDERS, UTILS, CONSTANTS} from "../everscale/0.1.1/getProvider.mjs"
-
-//Export
-export {getProvider as default, PROVIDERS, UTILS, CONSTANTS};
+/**
+ * If everscaleConnect not defined
+ */
+if(!window.everscaleConnect) {
+    window.everscaleConnect = {
+        getProvider,
+        PROVIDERS,
+        UTILS,
+        CONSTANTS: CONSTANTS
+    };
+}

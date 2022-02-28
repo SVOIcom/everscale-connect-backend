@@ -24,7 +24,7 @@ async function main() {
 
     /**
      * Initialize TON
-     * @type {TonWallet}
+     * @type {EverscaleWallet}
      */
     let TON = null;
     try {

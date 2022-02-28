@@ -1,31 +1,26 @@
-/*
-  _______          _____                _     _
- |__   __|        |  __ \              (_)   | |
-    | | ___  _ __ | |__) | __ _____   ___  __| | ___ _ __
-    | |/ _ \| '_ \|  ___/ '__/ _ \ \ / / |/ _` |/ _ \ '__|
-    | | (_) | | | | |   | | | (_) \ V /| | (_| |  __/ |
-    |_|\___/|_| |_|_|   |_|  \___/ \_/ |_|\__,_|\___|_|
- */
 /**
- * @name FreeTON connection provider
+ * @name Everscale connection provider
  * @copyright SVOI.dev Labs - https://svoi.dev
  * @license Apache-2.0
  * @version 1.0
  */
 
 import jQuery from "../jQuery.mjs";
+import {BACKEND_PROVIDER_API_URL} from "../../constants.mjs";
+
 
 /**
  * Contract class
  */
 class Contract {
-    constructor(abi, address, ton, parent) {
+    constructor(abi, address, ever, parent) {
         //this.provider = provider;
         this.parent = parent;
         this.abi = abi;
         this.address = address;
         //this.contract = new freeton.Contract(provider, abi, address);
-        this.ton = ton;
+
+        this.ever = ever;
 
 
         let that = this;
@@ -50,12 +45,22 @@ class Contract {
         }
     }
 
+    get ton() {
+        console.log('Using ton parameter is deprecated. Use ever instead.');
+        return this.ever;
+    }
+
+    set ton(value) {
+        console.log('Using ton parameter is deprecated. Use ever instead.');
+        this.ever = value;
+    }
+
     /**
      * Get current provider
      * @returns {*}
      */
     getProvider() {
-        return this.ton;
+        return this.ever;
     }
 
     /**
@@ -64,6 +69,14 @@ class Contract {
      */
     getTONClient() {
         return this.ton;
+    }
+
+    /**
+     * Get EVER client
+     * @returns {null}
+     */
+    getEVERClient() {
+        return this.ever;
     }
 
     /**
@@ -79,7 +92,7 @@ class Contract {
      * @returns {Promise<*>}
      */
     async getAccount() {
-        return await this.ton.contracts.getAccount(this.address);
+        return await this.ever.contracts.getAccount(this.address);
     }
 
     /**
@@ -101,13 +114,12 @@ class Contract {
     async getMethod(method, args = {}) {
         let $ = jQuery;
         //console.log('New jquery', $);
-        let postResult = await $.post('https://tonconnect.svoi.dev/TonBackendProvider/runLocal/' +
+        let postResult = await $.post(BACKEND_PROVIDER_API_URL + 'runLocal/' +
             this.parent.networkServer + "/" + this.address + '/' + method, {
                 abi: JSON.stringify(this.abi),
                 input: args
             }
-            )
-        ;
+        );
 
         if(postResult.status === 'error') {
             throw JSON.parse(postResult.encodedError)
@@ -123,7 +135,7 @@ class Contract {
      * @returns {Promise<*>}
      */
     async deployMethod(method, args = {}) {
-        throw 'Deploy method not supported by TonBackendProvider';
+        throw 'Deploy method not supported by EverscaleBackendProvider';
     }
 
     /**
@@ -145,7 +157,7 @@ class Contract {
 
         let $ = jQuery;
         //console.log('New jquery', $);
-        let postResult = await $.post('https://tonconnect.svoi.dev/TonBackendProvider/payload/' +
+        let postResult = await $.post(BACKEND_PROVIDER_API_URL + 'payload/' +
             this.parent.networkServer + '/' + method, {
                 abi: JSON.stringify(this.abi),
                 input: args

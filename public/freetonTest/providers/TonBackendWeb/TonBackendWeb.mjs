@@ -62,7 +62,7 @@ class TonBackendWeb extends EventEmitter3 {
 
     /**
      * Initialize extraTON provider
-     * @returns {Promise<TonWeb>}
+     * @returns {Promise<EverWeb>}
      */
     async start() {
 

@@ -13,9 +13,11 @@
  * @version 1.0
  */
 
+
 import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
 import utils from "../../utils.mjs";
+import loadTonWeb from "../TonWebLoader.mjs";
 
 
 const NETWORKS = {
@@ -36,10 +38,10 @@ const EXPLORERS = {
 }
 
 /**
- * Ton backend web
+ * extraTON provider class
  */
-class TonBackendWeb extends EventEmitter3 {
-    constructor(options = {provider: null, crystalWalletPayloadFormat: false}) {
+class EverWeb extends EventEmitter3 {
+    constructor(options = {provider: null}) {
         super();
         this.options = options;
         //this.provider = new freeton.providers.ExtensionProvider(options.provider);
@@ -56,24 +58,26 @@ class TonBackendWeb extends EventEmitter3 {
 
         this.account = null;
 
-        this.crystalWalletPayloadFormat = !!options.crystalWalletPayloadFormat;
-
 
         this.watchdogTimer = null;
     }
 
     /**
      * Initialize extraTON provider
-     * @returns {Promise<TonWeb>}
+     * @returns {Promise<EverWeb>}
      */
     async start() {
 
         console.log('TonWeb provider used');
 
+        //Load TONClient
+        await loadTonWeb();
+
+
         //Create "oldschool" ton provider
-        /* this.ton = await TONClient.create({
-             servers: [this.networkServer]
-         });*/
+        this.ton = await TONClient.create({
+            servers: [this.networkServer]
+        });
 
         //Changes watchdog timer
         const syncNetwork = async () => {
@@ -149,9 +153,9 @@ class TonBackendWeb extends EventEmitter3 {
         }
 
         //Recreate TON provider
-        /* this.ton = await TONClient.create({
-             servers: [this.networkServer]
-         });*/
+        this.ton = await TONClient.create({
+            servers: [this.networkServer]
+        });
 
         this.emit('networkChanged', this.network, this,);
     }
@@ -297,4 +301,4 @@ class TonBackendWeb extends EventEmitter3 {
     }
 }
 
-export default TonBackendWeb;
+export default EverWeb;

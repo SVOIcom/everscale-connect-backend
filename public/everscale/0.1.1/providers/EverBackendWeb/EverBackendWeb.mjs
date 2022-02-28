@@ -1,51 +1,28 @@
-/*
-  _______          _____                _     _
- |__   __|        |  __ \              (_)   | |
-    | | ___  _ __ | |__) | __ _____   ___  __| | ___ _ __
-    | |/ _ \| '_ \|  ___/ '__/ _ \ \ / / |/ _` |/ _ \ '__|
-    | | (_) | | | | |   | | | (_) \ V /| | (_| |  __/ |
-    |_|\___/|_| |_|_|   |_|  \___/ \_/ |_|\__,_|\___|_|
- */
 /**
- * @name FreeTON connection provider
+ * @name Everscale connection provider
  * @copyright SVOI.dev Labs - https://svoi.dev
  * @license Apache-2.0
  * @version 1.0
  */
 
-
 import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
+import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI} from "../../constants.mjs";
 import utils from "../../utils.mjs";
-import loadTonWeb from "../TonWebLoader.mjs";
 
 
-const NETWORKS = {
-    main: 'main.ton.dev',
-    test: 'net.ton.dev'
-};
-
-const REVERSE_NETWORKS = {
-    'main.ton.dev': 'main',
-    'net.ton.dev': 'test',
-    'localhost': 'local'
-}
-
-const EXPLORERS = {
-    test: 'net.ton.live',
-    main: 'main.ton.live',
-    local: 'main.ton.live',
-}
+const UPDATE_INTERVAL = 10000;
 
 /**
- * extraTON provider class
+ * Ton backend web
  */
-class TonWeb extends EventEmitter3 {
-    constructor(options = {provider: null}) {
+class EverBackendWeb extends EventEmitter3 {
+    constructor(options = {provider: null, crystalWalletPayloadFormat: false}) {
         super();
         this.options = options;
         //this.provider = new freeton.providers.ExtensionProvider(options.provider);
-        this.ton = null
+
+        this.ever = null;
 
         this.pubkey = null;
 
@@ -58,26 +35,34 @@ class TonWeb extends EventEmitter3 {
 
         this.account = null;
 
+        this.crystalWalletPayloadFormat = !!options.crystalWalletPayloadFormat;
+
 
         this.watchdogTimer = null;
     }
 
+    get ton(){
+        console.log('Using ton parameter is deprecated. Use ever instead.');
+        return this.ever;
+    }
+
+    set ton(value){
+        console.log('Using ton parameter is deprecated. Use ever instead.');
+        this.ever = value;
+    }
+
     /**
      * Initialize extraTON provider
-     * @returns {Promise<TonWeb>}
+     * @returns {Promise<EverWeb>}
      */
     async start() {
 
-        console.log('TonWeb provider used');
-
-        //Load TONClient
-        await loadTonWeb();
-
+        console.log('EverscaleBackendProvider provider used');
 
         //Create "oldschool" ton provider
-        this.ton = await TONClient.create({
-            servers: [this.networkServer]
-        });
+        /* this.ton = await TONClient.create({
+             servers: [this.networkServer]
+         });*/
 
         //Changes watchdog timer
         const syncNetwork = async () => {
@@ -111,7 +96,7 @@ class TonWeb extends EventEmitter3 {
             }
 
         };
-        this.watchdogTimer = setInterval(syncNetwork, 1000);
+        this.watchdogTimer = setInterval(syncNetwork, UPDATE_INTERVAL);
         await syncNetwork();
 
         return this;
@@ -126,7 +111,7 @@ class TonWeb extends EventEmitter3 {
      * @returns {Promise<Account>}
      */
     async acceptAccount(publicKey, seed, seedLength, seedDict) {
-        return this.account = new Account(this.ton, publicKey, seed, seedLength, seedDict);
+        return this.account = new Account(this.ever, publicKey, seed, seedLength, seedDict);
     }
 
     /**
@@ -136,7 +121,7 @@ class TonWeb extends EventEmitter3 {
      */
     async acceptWallet(address) {
         this.walletAddress = address;
-        this.walletContract = await this.loadContract('https://tonconnect.svoi.dev/contracts/abi/SafeMultisigWallet.abi.json', address);
+        this.walletContract = await this.loadContract(SAFE_MULTISIG_ABI, address);
     }
 
     /**
@@ -153,9 +138,9 @@ class TonWeb extends EventEmitter3 {
         }
 
         //Recreate TON provider
-        this.ton = await TONClient.create({
-            servers: [this.networkServer]
-        });
+        /* this.ton = await TONClient.create({
+             servers: [this.networkServer]
+         });*/
 
         this.emit('networkChanged', this.network, this,);
     }
@@ -174,6 +159,14 @@ class TonWeb extends EventEmitter3 {
      */
     getTONClient() {
         return this.ton;
+    }
+
+    /**
+     * Get EVER client
+     * @returns {null}
+     */
+    getEVERClient() {
+        return this.ever;
     }
 
     /**
@@ -227,7 +220,7 @@ class TonWeb extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async initContract(abi, address) {
-        return new Contract(abi, address, this.ton, this);
+        return new Contract(abi, address, this.ever, this);
     }
 
     /**
@@ -301,4 +294,4 @@ class TonWeb extends EventEmitter3 {
     }
 }
 
-export default TonWeb;
+export default EverBackendWeb;
