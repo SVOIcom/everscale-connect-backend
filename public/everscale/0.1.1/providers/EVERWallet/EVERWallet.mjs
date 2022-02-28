@@ -15,8 +15,10 @@
 
 
 import Contract from "./Contract.mjs";
-import ever, {hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
+import {hasEverscaleProvider, ProviderRpcClient} from './everscale-inpage-provider/dist/index.js';
 import loadTonWeb from "../TonWebLoader.mjs";
+
+const ever = new ProviderRpcClient();
 
 const NETWORKS = {
     main: 'main3.ton.dev',
