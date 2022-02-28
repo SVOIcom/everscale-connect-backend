@@ -27,6 +27,22 @@ Due to the specific factors of the Everscale network connection, this module **d
 You can try to download the module directly and import it into the webpack project, but most likely you will lose the availability of the EverWeb provider which provides a direct connection to the web from a browser.
 
 
+## Versioning
+
+By default the module is using the latest version of the Everscale-Connect module.
+
+You can choose version by using direct version links:
+
+```html
+<!-- Import the module with the specific version -->
+<script src="https://everscale-connect.svoi.dev/everscale/0.1.1/index.mjs" type="module"></script>
+
+<script>
+    //Import the module with the specific version
+    import * from "https://everscale-connect.svoi.dev/everscale/0.1.1/getProvider.mjs";
+</script>
+```
+
 ## Usage example
 
 ```javascript
