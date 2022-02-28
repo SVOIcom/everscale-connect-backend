@@ -10,7 +10,7 @@
 <script type="module">
 
 
-    import {default as getProvider, PROVIDERS, UTILS} from "https://tonconnect.svoi.dev/freeton/getProvider.mjs";
+    import {default as getProvider, PROVIDERS, UTILS} from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
     import ERC721 from "./ERC721.mjs";
 
     window.getProvider = getProvider;
@@ -18,26 +18,26 @@
     window.UTILS = UTILS;
 
 
-    const DEFAULT_WALLET = confirm('Press ok if you want to user TonWallet  or cancel for Crystal Wallet') ? PROVIDERS.TonWallet : PROVIDERS.CrystalWallet;
+    const DEFAULT_WALLET = confirm('Press ok if you want to user Everscale Wallet  or cancel for Ever Wallet') ? PROVIDERS.EverscaleWallet : PROVIDERS.EVERWallet;
 
 
-    let TON = null;
+    let EVER = null;
     try {
         //Initialize provider
-        TON = await getProvider({}, DEFAULT_WALLET);
-        await TON.requestPermissions();
-        await TON.start();
+        EVER = await getProvider({}, DEFAULT_WALLET);
+        await EVER.requestPermissions();
+        await EVER.start();
 
-        window.TON = TON;
+        window.TON = EVER;
 
         try {
 
             let address = prompt('Enter transfer address');
-            let amount = UTILS.numberToUnsignedNumber(prompt('Enter transfer amount in TON'))
+            let amount = UTILS.numberToUnsignedNumber(prompt('Enter transfer amount in EVER'))
 
 
             try {
-                await TON.walletTransfer(address, amount);
+                await EVER.walletTransfer(address, amount);
 
                 alert('Transaction created!')
             } catch (e) {

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>TonConnect Test</title>
+    <title>EverscaleConnect Test</title>
 </head>
 <body>
 
@@ -8,14 +8,14 @@
 <script type="module">
 
 
-    import {default as getProvider, PROVIDERS, UTILS} from "https://tonconnect.svoi.dev/freeton/getProvider.mjs";
+    import {default as getProvider, PROVIDERS, UTILS} from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
 
     window.getProvider = getProvider;
     window.PROVIDERS = PROVIDERS;
     window.UTILS = UTILS;
 
 
-    const DEFAULT_WALLET = PROVIDERS.TonWallet;
+    const DEFAULT_WALLET = PROVIDERS.EverscaleWallet;
 
     let TON = null;
     try {
@@ -29,7 +29,7 @@
         TON = await getProvider({
             network: 'main',
             networkServer: 'main2.ton.dev'
-        }, PROVIDERS.TonBackendWeb);
+        }, PROVIDERS.EverBackendWeb);
         await TON.requestPermissions();
         await TON.start();
 
