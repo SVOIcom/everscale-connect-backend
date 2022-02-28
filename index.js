@@ -76,7 +76,7 @@ if(cluster.isMaster) {
 
     (async () => {
         const express = require('express');
-        const App = new FavoritoApp(__dirname + '/' + process.argv[2] ?? __dirname + '/config.js', 'conFederation ' + process.pid);
+        const App = new FavoritoApp(__dirname + '/' + process.argv[2] ?? __dirname + '/config.js', 'EverscaleConnect ' + process.pid);
         await App.init();
 
         App.expressApp.use(bodyParser.json({limit: '50mb'}));
