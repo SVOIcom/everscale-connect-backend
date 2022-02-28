@@ -15,7 +15,7 @@
 
 
 import Contract from "./Contract.mjs";
-import ton, {hasTonProvider} from './ton-inpage-provider/dist/index.js';
+import ever, {hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
 import loadTonWeb from "../TonWebLoader.mjs";
 
 const NETWORKS = {
@@ -26,7 +26,7 @@ const NETWORKS = {
 const REVERSE_NETWORKS = {
     'main.ton.dev': 'main',
     'main2.ton.dev': 'main',
-     'main3.ton.dev': 'main',
+    'main3.ton.dev': 'main',
     'net.ton.dev': 'test',
 
     'Mainnet (GQL 3)': 'main',
@@ -70,7 +70,7 @@ class EVERWallet extends EventEmitter3 {
         super();
         this.options = options;
         this.provider = null;
-        this.ton = null
+        this.ever = null
         this.networkServer = options.networkServer;
         this.pubkey = null;
 
@@ -88,19 +88,19 @@ class EVERWallet extends EventEmitter3 {
      */
     async start() {
 
-        //Detect is CrystallWallet exists
-        if(!(await hasTonProvider())) {
-            throw new Error('CrystallWallet extension not found');
+        //Detect is EverWallet exists
+        if(!(await hasEverscaleProvider())) {
+            throw new Error('EverWallet extension not found');
         }
-        await ton.ensureInitialized();
+        await ever.ensureInitialized();
 
-        this.provider = ton
+        this.provider = ever
 
-      //  await this.revokePermissions();
+        //  await this.revokePermissions();
 
-       // await this._getPermissions();
+        // await this._getPermissions();
 
-       // console.log((await ton.getProviderState()));
+        // console.log((await ton.getProviderState()));
 
         this.networkServer = await this._getCurrentNetwork();
 
@@ -108,7 +108,7 @@ class EVERWallet extends EventEmitter3 {
         await loadTonWeb();
 
         //Create "oldschool" ton provider
-        this.ton = await TONClient.create({
+        this.ever = await TONClient.create({
             servers: [this.networkServer]
         });
 
@@ -131,7 +131,7 @@ class EVERWallet extends EventEmitter3 {
                 }
                 this.networkServer = networkServer;
 
-                this.ton = await TONClient.create({
+                this.ever = await TONClient.create({
                     servers: [NETWORKS_COMPILABILITY[this.networkServer]]
                 });
 
@@ -180,11 +180,11 @@ class EVERWallet extends EventEmitter3 {
      * @param permissions
      * @returns {Promise<*>}
      */
-    async requestPermissions(permissions = ['tonClient', 'accountInteraction']){
-        if(!(await hasTonProvider())) {
-            throw new Error('CrystallWallet extension not found');
+    async requestPermissions(permissions = ['basic', 'tonClient', 'accountInteraction']) {
+        if(!(await hasEverscaleProvider())) {
+            throw new Error('EverWallet extension not found');
         }
-        await ton.ensureInitialized();
+        await ever.ensureInitialized();
         return await this._getPermissions(permissions);
     }
 
@@ -193,8 +193,8 @@ class EVERWallet extends EventEmitter3 {
      * @param permissions
      * @returns {Promise<{address: string, publicKey: string, contractType: WalletContractType}>}
      */
-    async _getPermissions(permissions = ['tonClient', 'accountInteraction']) {
-        let {accountInteraction} = await ton.rawApi.requestPermissions({
+    async _getPermissions(permissions = ['basic', 'tonClient', 'accountInteraction']) {
+        let {accountInteraction} = await ever.rawApi.requestPermissions({
             permissions: permissions
         });
         if(accountInteraction == null) {
@@ -218,7 +218,11 @@ class EVERWallet extends EventEmitter3 {
      * @returns {TONClient}
      */
     getTONClient() {
-        return this.ton;
+        return this.ever;
+    }
+
+    getEVERClient() {
+        return this.ever;
     }
 
     /**
@@ -278,7 +282,7 @@ class EVERWallet extends EventEmitter3 {
      * @returns {Promise<void>}
      */
     async revokePermissions() {
-        return await ton.rawApi.disconnect();
+        return await ever.rawApi.disconnect();
     }
 
     /**
@@ -288,7 +292,7 @@ class EVERWallet extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async initContract(abi, address) {
-        return new Contract(abi, address, this.ton, this);
+        return new Contract(abi, address, this.ever, this);
     }
 
     /**
@@ -326,7 +330,7 @@ class EVERWallet extends EventEmitter3 {
 
         };
 
-        if(payload){
+        if(payload) {
             sendObj.payload = payload;
         }
 
@@ -351,7 +355,7 @@ class EVERWallet extends EventEmitter3 {
      * Return extension icon
      * @returns {string}
      */
-    getIconUrl(){
+    getIconUrl() {
         return 'https://raw.githubusercontent.com/broxus/ton-wallet-crystal-browser-extension/master/src/popup/icons/icon128.png'
     }
 

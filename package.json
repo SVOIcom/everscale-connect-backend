@@ -15,6 +15,7 @@
     "@tonclient/core": "^1.16.0",
     "@tonclient/lib-node": "^1.16.0",
     "bignumber.js": "^9.0.1",
+    "everscale-inpage-provider": "^0.3.9",
     "favorito": "^0.1.9",
     "freeton": "git+https://github.com/lailune/freeton.git",
     "node-fetch": "^2.6.1",

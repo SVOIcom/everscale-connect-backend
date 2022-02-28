@@ -8,7 +8,8 @@
 <script type="module">
 
 
-    import {default as getProvider, PROVIDERS, UTILS} from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
+    import {default as getProvider, PROVIDERS, UTILS} from "https://tonconnect.svoi.dev/freeton/getProvider.mjs";
+   // import {default as getProvider, PROVIDERS, UTILS} from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
     import ERC721 from "./ERC721.mjs";
 
     window.getProvider = getProvider;
@@ -16,7 +17,7 @@
     window.UTILS = UTILS;
 
 
-    const DEFAULT_WALLET = PROVIDERS.EverscaleWallet;
+    const DEFAULT_WALLET = PROVIDERS.TonWallet;
 
     let EVER = null;
     try {
