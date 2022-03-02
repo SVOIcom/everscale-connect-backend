@@ -1,4 +1,5 @@
 import {CONSTANTS, UTILS as utils} from "../getProvider.mjs";
+import TIP31Wallet from "./TIP31Wallet.mjs";
 
 /**
  * TIP-3.1 contract implementation for Everscale Connect
@@ -58,8 +59,16 @@ class TIP31Root {
         })).value0;
     }
 
-    //TODO: add wallet instance by address
 
+    /**
+     * Get wallet instance by wallet address
+     * @param {string} walletOwner
+     * @returns {Promise<TIP31Wallet>}
+     */
+    async getWalletByMultisig(walletOwner) {
+        let walletAddress = await this.getWalletAddressByMultisig(walletOwner);
+        return await (new TIP31Wallet(this.ton)).init(walletAddress);
+    }
 
     /**
      * Create deploy wallet payload
@@ -74,6 +83,7 @@ class TIP31Root {
             walletOwner: ownerAddress
         });
     }
+
 
 }
 
