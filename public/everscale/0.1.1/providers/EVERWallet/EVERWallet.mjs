@@ -16,7 +16,8 @@
 
 import Contract from "./Contract.mjs";
 import {ProviderRpcClient, hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
-import loadTonWeb from "../TonWebLoader.mjs";
+import {STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
+import loadEverWeb from "../EverWebLoader.mjs";
 
 let ever = null;
 
@@ -110,12 +111,14 @@ class EVERWallet extends EventEmitter3 {
 
         this.networkServer = await this._getCurrentNetwork();
 
-        //Load TONClient
-        await loadTonWeb();
 
-        //Create "oldschool" ton provider
-        this.ever = await TONClient.create({
-            servers: [this.networkServer]
+        //Load TONClient
+        await loadEverWeb();
+
+        this.ever = new tonclientWeb.TonClient({
+            network: {
+                server_address: this.networkServer
+            }
         });
 
         this.network = REVERSE_NETWORKS[this.networkServer];
@@ -137,8 +140,11 @@ class EVERWallet extends EventEmitter3 {
                 }
                 this.networkServer = networkServer;
 
-                this.ever = await TONClient.create({
-                    servers: [NETWORKS_COMPILABILITY[this.networkServer]]
+
+                this.ever = new tonclientWeb.TonClient({
+                    network: {
+                        server_address: NETWORKS_COMPILABILITY[this.networkServer]
+                    }
                 });
 
                 //console.log("checkNetwork+")
@@ -174,7 +180,7 @@ class EVERWallet extends EventEmitter3 {
             }
 
         };
-        this.watchdogTimer = setInterval(syncNetwork, 1000);
+        this.watchdogTimer = setInterval(syncNetwork, STATUS_UPDATE_INTERVAL);
         await syncNetwork();
 
         return this;

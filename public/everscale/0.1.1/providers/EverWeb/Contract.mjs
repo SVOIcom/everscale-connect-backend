@@ -115,19 +115,7 @@ class Contract {
      * @private
      */
     async _encodeCallBody(abi, functionName, input = {}, signer = {type: 'None'}) {
-        let TON = this.ton;
-        return (await TON.abi.encode_message_body({
-            abi: {
-                type: 'Contract',
-                value: (abi)
-            },
-            call_set: {
-                function_name: functionName,
-                input: input
-            },
-            is_internal: true,
-            signer: signer
-        })).body;
+        return await everscaleUtils.encodeCallBody(this.ton, abi, functionName, input, signer);
     }
 
     /**

@@ -13,6 +13,8 @@
  * @version 1.0
  */
 
+import everscaleUtils from "../../everscaleUtils.mjs";
+
 /**
  * Contract class
  */
@@ -97,13 +99,7 @@ class Contract {
      * @returns {Promise<*>}
      */
     async getMethod(method, args = {}) {
-        return (await this.ton.contracts.runLocal({
-            abi: this.abi,
-            functionName: method,
-            input: args,
-            address: this.address
-        })).output;
-        //return await this.contract.functions[method].runGet(args);
+        return await everscaleUtils.runLocal(this.ton, this.abi, this.address, this.method, args)
     }
 
     /**
@@ -113,6 +109,10 @@ class Contract {
      * @returns {Promise<*>}
      */
     async deployMethod(method, args = {}) {
+
+        throw new Error('Not implemented yet');
+
+        /*
         let params = {
             address: this.address,
             abi: this.abi,
@@ -131,6 +131,8 @@ class Contract {
         result.tx = transaction;
 
         return result;
+        */
+
     }
 
     /**
@@ -146,28 +148,6 @@ class Contract {
             method: method,
             params: args
         }
-
-        /*
-        const ton = await getTONClient();
-
-        const callSet = {
-            function_name: method,
-            input: args
-        }
-        const encoded_msg = await ton.abi.encode_message_body({
-            abi: {
-                type: 'Json',
-                value: JSON.stringify(this.abi)
-            },
-            call_set: callSet,
-            is_internal: true,
-            signer: {
-                type: 'None'
-            }
-        });
-
-        return encoded_msg.body;*/
-
     }
 
 }

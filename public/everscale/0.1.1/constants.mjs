@@ -27,6 +27,8 @@ const SAFE_MULTISIG_ABI = 'https://everscale-connect.svoi.dev/contracts/abi/Safe
 
 const BACKEND_PROVIDER_API_URL = "https://everscale-connect.svoi.dev/EverscaleBackendProvider/";
 
+const STATUS_UPDATE_INTERVAL = 10000;
+
 const ABIS_URLS = {
     SAFE_MULTISIG: SAFE_MULTISIG_ABI,
     ERC721: 'https://everscale-connect.svoi.dev/contracts/abi/ERC721.abi.json',
@@ -34,4 +36,4 @@ const ABIS_URLS = {
     TIP31_WALLET: '',
 }
 
-export {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, BACKEND_PROVIDER_API_URL, ABIS_URLS};
+export {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, BACKEND_PROVIDER_API_URL, ABIS_URLS, STATUS_UPDATE_INTERVAL};

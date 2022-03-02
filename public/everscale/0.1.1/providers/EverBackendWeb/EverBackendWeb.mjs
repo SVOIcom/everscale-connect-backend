@@ -7,11 +7,9 @@
 
 import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
-import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI} from "../../constants.mjs";
+import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
 import utils from "../../utils.mjs";
 
-
-const UPDATE_INTERVAL = 10000;
 
 /**
  * Ton backend web
@@ -96,7 +94,7 @@ class EverBackendWeb extends EventEmitter3 {
             }
 
         };
-        this.watchdogTimer = setInterval(syncNetwork, UPDATE_INTERVAL);
+        this.watchdogTimer = setInterval(syncNetwork, STATUS_UPDATE_INTERVAL);
         await syncNetwork();
 
         return this;

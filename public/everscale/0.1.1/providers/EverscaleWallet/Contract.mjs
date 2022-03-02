@@ -14,6 +14,7 @@
  * @version 1.0
  */
 import utils from "../../utils.mjs";
+import everscaleUtils from "../../everscaleUtils.mjs";
 
 /**
  * Contract class
@@ -100,6 +101,11 @@ class Contract {
      */
     async getMethod(method, args = {}) {
 
+
+        return await everscaleUtils.runLocal(this.ton, this.abi, this.address, this.method, args);
+
+        /*
+
         try {
             return (await this.ton.contracts.runLocal({
                 abi: this.abi,
@@ -131,7 +137,7 @@ class Contract {
 
             throw e;
         }
-        //return await this.contract.functions[method].runGet(args);
+        //return await this.contract.functions[method].runGet(args);*/
     }
 
     /**
@@ -141,7 +147,8 @@ class Contract {
      * @returns {Promise<*>}
      */
     async deployMethod(method, args = {}) {
-        let params = {
+        throw new Error('Not implemented yet');
+        /*let params = {
             address: this.address,
             abi: this.abi,
             functionName: method,
@@ -158,7 +165,7 @@ class Contract {
 
         result.tx = transaction;
 
-        return result;
+        return result;*/
     }
 
     /**
@@ -169,7 +176,7 @@ class Contract {
      */
     async deployPayload(method, args = {}) {
 
-        const ton = await getTONClient();
+        const ton = this.ton;
 
         const callSet = {
             function_name: method,

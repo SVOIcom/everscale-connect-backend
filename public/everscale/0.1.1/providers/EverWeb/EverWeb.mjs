@@ -17,26 +17,10 @@
 import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
 import utils from "../../utils.mjs";
-//import loadTonWeb from "../TonWebLoader.mjs";
 import loadEverWeb from "../EverWebLoader.mjs";
+import {ABIS_URLS, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
+import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI} from "../../constants.mjs";
 
-
-const NETWORKS = {
-    main: 'main.ton.dev',
-    test: 'net.ton.dev'
-};
-
-const REVERSE_NETWORKS = {
-    'main.ton.dev': 'main',
-    'net.ton.dev': 'test',
-    'localhost': 'local'
-}
-
-const EXPLORERS = {
-    test: 'net.ton.live',
-    main: 'main.ton.live',
-    local: 'main.ton.live',
-}
 
 /**
  * extraTON provider class
@@ -69,7 +53,7 @@ class EverWeb extends EventEmitter3 {
      */
     async start() {
 
-        console.log('TonWeb provider used');
+        console.log('EverWeb provider used');
 
         //Load TONClient
         await loadEverWeb();
@@ -112,7 +96,7 @@ class EverWeb extends EventEmitter3 {
             }
 
         };
-        this.watchdogTimer = setInterval(syncNetwork, 1000);
+        this.watchdogTimer = setInterval(syncNetwork, STATUS_UPDATE_INTERVAL);
         await syncNetwork();
 
         return this;
@@ -137,7 +121,7 @@ class EverWeb extends EventEmitter3 {
      */
     async acceptWallet(address) {
         this.walletAddress = address;
-        this.walletContract = await this.loadContract('https://tonconnect.svoi.dev/contracts/abi/SafeMultisigWallet.abi.json', address);
+        this.walletContract = await this.loadContract(ABIS_URLS.SAFE_MULTISIG, address);
     }
 
     /**

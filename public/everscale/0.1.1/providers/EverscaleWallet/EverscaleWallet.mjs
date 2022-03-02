@@ -16,6 +16,8 @@
 import Contract from "./Contract.mjs";
 import utils from "../../utils.mjs";
 import loadTonWeb from "../TonWebLoader.mjs";
+import {ABIS_URLS, SAFE_MULTISIG_ABI, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
+import loadEverWeb from "../EverWebLoader.mjs";
 
 const NETWORKS = {
     main: 'main2.ton.dev',
@@ -110,11 +112,18 @@ class EverscaleWallet extends EventEmitter3 {
         }
 
         //Load TONClient
-        await loadTonWeb();
+       /* await loadTonWeb();
 
         //Create "oldschool" ton provider
         this.ton = await TONClient.create({
             servers: [(await this.provider.network.get()).network.url]
+        });*/
+
+        await loadEverWeb();
+        this.ton = new tonclientWeb.TonClient({
+            network: {
+                server_address: (await this.provider.network.get()).network.url
+            }
         });
 
         try {
@@ -160,7 +169,7 @@ class EverscaleWallet extends EventEmitter3 {
             }
 
         };
-        this.watchdogTimer = setInterval(syncNetwork, 1000);
+        this.watchdogTimer = setInterval(syncNetwork, STATUS_UPDATE_INTERVAL);
         await syncNetwork();
 
         return this;
@@ -241,7 +250,7 @@ class EverscaleWallet extends EventEmitter3 {
         if(wallet.address) {
 
             if(!this.walletContract) {
-                this.walletContract = await this.loadContract('https://tonconnect.svoi.dev/contracts/abi/SafeMultisigWallet.abi.json', wallet.address);
+                this.walletContract = await this.loadContract(ABIS_URLS.SAFE_MULTISIG, wallet.address);
             }
             //Load user wallet (potentially compatible with SafeMiltisig)
             wallet.contract = this.walletContract;
