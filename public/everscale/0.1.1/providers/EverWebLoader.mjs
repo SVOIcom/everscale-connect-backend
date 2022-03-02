@@ -13,6 +13,18 @@ async function loadEverWeb(){
     }catch (e) {
         console.log(e);
     }
+
+
+    try{
+        tonclientWeb.libWebSetup({
+            binaryURL: '/eversdk.wasm',
+        });
+        tonclientWeb.TonClient.useBinaryLibrary(tonclientWeb.libWeb);
+    }catch (e) {
+        console.log(e)
+    }
+
+
     window.fetch = _fetch;
 }
 

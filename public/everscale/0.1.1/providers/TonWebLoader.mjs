@@ -13,6 +13,7 @@ async function loadTonWeb(){
     }catch (e) {
         console.log(e);
     }
+
     window.fetch = _fetch;
 }
 
