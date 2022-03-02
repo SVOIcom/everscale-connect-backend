@@ -16,7 +16,7 @@
 
 import Contract from "./Contract.mjs";
 import {ProviderRpcClient, hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
-import {STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
+import {ABIS_URLS, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
 import loadEverWeb from "../EverWebLoader.mjs";
 
 let ever = null;
@@ -260,7 +260,7 @@ class EVERWallet extends EventEmitter3 {
         if(wallet.address) {
 
             if(!this.walletContract) {
-                this.walletContract = await this.loadContract('https://tonconnect.svoi.dev/contracts/abi/SafeMultisigWallet.abi.json', wallet.address);
+                this.walletContract = await this.loadContract(ABIS_URLS.SAFE_MULTISIG, wallet.address);
             }
 
             //Load user wallet (potentially compatible with SafeMiltisig)

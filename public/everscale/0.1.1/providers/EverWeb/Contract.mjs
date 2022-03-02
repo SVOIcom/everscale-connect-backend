@@ -16,7 +16,7 @@
  * Contract class
  */
 
-import  {default as everscaleUtils} from '../../everscaleUtils.mjs';
+import {default as everscaleUtils} from '../../everscaleUtils.mjs';
 
 class Contract {
     constructor(abi, address, ton, parent) {
@@ -79,7 +79,13 @@ class Contract {
      * @returns {Promise<*>}
      */
     async getAccount() {
-        return await this.ton.contracts.getAccount(this.address);
+        let rawAccount = await this.ton.net.query_collection({
+            collection: 'accounts',
+            filter: {id: {eq: this.address}},
+            result: 'balance acc_type id acc_type_name workchain_id'
+        })
+
+        return {...rawAccount.result,};
     }
 
     /**
