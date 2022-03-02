@@ -60,6 +60,7 @@ const REVERSE_NETWORKS = {
  */
 class ExtraTon extends EventEmitter3 {
     constructor(options = {provider: window.freeton}) {
+        console.log('!!!ExtraTon module deprecated and will be removed in the future!!!');
         super();
         this.options = options;
         this.provider = null;//new freeton.providers.ExtensionProvider(options.provider);

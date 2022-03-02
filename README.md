@@ -91,6 +91,61 @@ Everscale-Connect now supports these providers and extensions:
 Deprecated providers:
 * [ExtraTon](https://extraton.io) 
 
+## Contracts 
+
+Everscale-Connect provides some ready-to-use contracts modules.
+
+### TIP-3.1 Broxus implementation
+Import directly from https://everscale-connect.svoi.dev/everscale/contracts/TIP31Root.mjs
+
+Demo:
+
+```javascript
+import TIP31Root from "https://everscale-connect.svoi.dev/everscale/contracts/TIP31Root.mjs";
+
+//EVER provider code stuff
+
+//Some TIP-3.1 token address
+const WHISKEY_TOKEN_ADDRESS = '0:d893fe68910b9d65446a7a4e8adb245e8c9bc5d981ced60a9dd1546dca9d6500';
+
+//Get user wallet address
+const CURRENT_USER_WALLET_ADDRESS = (await EVER.getWallet()).address;
+
+
+//Initialize token root contract
+let token = await (new TIP31Root(EVER)).init();
+
+//Get user wallet objec
+let wallet = await tip31.getWalletByMultisig(CURRENT_USER_WALLET_ADDRESS);
+
+console.log('User balance', await wallet.balance());
+
+//Transfer demo
+const AMOUNT = 1;
+const DESTINATION_MULTISIG = '0:6f62421724726e9f42c5af9b684af4f6d0d34eab4ae5e6dfa020d706e2ad97a1';
+
+//Getting destination TIP-3.1 wallet address
+const DESTINATION_WALLET = await token.getWalletAddressByMultisig(DESTINATION_MULTISIG);
+
+//Getting transfer payload
+let transferPayload = await wallet.transferPayload(DESTINATION_WALLET, AMOUNT);
+
+//Making transfer
+await EVER.walletTransfer(wallet.address ,1e9, transferPayload, true);
+
+```
+
+### ERC721
+Import directly from https://everscale-connect.svoi.dev/everscale/contracts/ERC721.mjs
+
+Used only for current version of ScalePunks.com.
+
+For demos see 
+* [examples/tonpunksMintPunkRaw.html](examples/tonpunksMintPunkRaw.html)
+* [examples/gettonpunksinfo.html](examples/gettonpunksinfo.html)
+* [examples/getScalePunksInfoEverWeb.html](examples/getScalePunksInfoEverWeb.html)
+* [examples/getScalePunksInfoEverWebNative.html](examples/getScalePunksInfoEverWebNative.html)
+
 ## Projects using TonConnect
 
 * Upcoming project...

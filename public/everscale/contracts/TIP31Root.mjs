@@ -13,10 +13,12 @@ class TIP31Root {
     constructor(ton) {
         this.ton = ton;
         this.contract = null;
+        this.address = null;
     }
 
 
     async init(address) {
+        this.address = address;
         this.contract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP31_ROOT, address);
         return this;
     }
