@@ -47,6 +47,13 @@
 
     alert('Token name ' + tokenInfo.name);
 
+    let wallet = await tip31.getWalletByMultisig((await EVER.getWallet()).address);
+    if(await wallet.isDeployed()){
+        alert('Wallet is deployed');
+    } else {
+        alert('Wallet is not deployed');
+    }
+
 
 </script>
 </body>
