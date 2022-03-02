@@ -16,7 +16,7 @@
  * Contract class
  */
 
-import  {runLocal, encodeCallBody} from '../../everscaleUtils.mjs';
+import  {default as everscaleUtils} from '../../everscaleUtils.mjs';
 
 class Contract {
     constructor(abi, address, ton, parent) {
@@ -102,7 +102,7 @@ class Contract {
      * @private
      */
     async _runLocal(abi, address, functionName, input = {}) {
-        return await runLocal(this.ton, abi, address, functionName, input);
+        return await everscaleUtils.runLocal(this.ton, abi, address, functionName, input);
     }
 
     /**

@@ -72,4 +72,4 @@ class EverscaleUtils {
 
 let everscaleUtils = new EverscaleUtils();
 
-export default {runLocal: everscaleUtils.runLocal, encodeCallBody: everscaleUtils.encodeCallBody};
+export default everscaleUtils;
