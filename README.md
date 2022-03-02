@@ -21,6 +21,17 @@ Otherwise, you can use a wrapper script to activate module functionality in the 
 </script>
 ```
 
+### ES6 Module *(recommended)*
+
+Simplest way to use EverscaleConnect is to use ES6 module import:
+
+```javascript
+import {default as getProvider, PROVIDERS, UTILS} from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
+
+let EVER = await getProvider({}, PROVIDERS.EverscaleWallet);
+//Do you Everscale stuff
+```
+
 ### Webpack
 Due to the specific factors of the Everscale network connection, this module **does not support** webpack packaging.
 
