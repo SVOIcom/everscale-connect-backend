@@ -76,8 +76,14 @@ class EverWeb extends EventEmitter3 {
 
 
         //Create "oldschool" ton provider
-        this.ton = await TONClient.create({
+       /* this.ton =  await TONClient.create({
             servers: [this.networkServer]
+        });*/
+
+        this.ton = new tonclientWeb.TonClient({
+            network: {
+                server_address: this.networkServer
+            }
         });
 
         //Changes watchdog timer
@@ -154,8 +160,14 @@ class EverWeb extends EventEmitter3 {
         }
 
         //Recreate TON provider
-        this.ton = await TONClient.create({
+       /* this.ton = await TONClient.create({
             servers: [this.networkServer]
+        });*/
+
+        this.ton = new tonclientWeb.TonClient({
+            network: {
+                server_address: this.networkServer
+            }
         });
 
         this.emit('networkChanged', this.network, this,);

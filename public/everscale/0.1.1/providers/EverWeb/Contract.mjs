@@ -86,7 +86,7 @@ class Contract {
     }
 
     async _runLocal(abi, address, functionName, input = {}) {
-        let TON = this.ton.lowLevel;
+        let TON = this.ton;
 
         const account = (await TON.net.query_collection({
             collection: 'accounts',
@@ -128,12 +128,14 @@ class Contract {
      * @returns {Promise<*>}
      */
     async getMethod(method, args = {}) {
-        return (await this.ton.contracts.runLocal({
+        /*return (await this.ton.contracts.runLocal({
             abi: this.abi,
             functionName: method,
             input: args,
             address: this.address
-        })).output;
+        })).output;*/
+
+        return await this._runLocal(this.abi, this.address, method, args);
         //return await this.contract.functions[method].runGet(args);
     }
 
