@@ -290,7 +290,7 @@ class EverscaleWallet extends EventEmitter3 {
      * @returns {string}
      */
     getIconUrl() {
-        return 'https://swap.block-chain.com/img/tonwallet.svg'
+        return 'https://github.com/SVOIcom/browser-extension/raw/main/icons/128.png'
     }
 }
 
