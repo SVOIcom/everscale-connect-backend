@@ -1,29 +1,32 @@
-async function loadEverWeb(){
+async function loadEverWeb() {
     let _fetch = window.fetch;
-    window.fetch = (...args)=>{
-        if(args[0] === '/eversdk.wasm'){
+    window.fetch = (...args) => {
+        if(args[0] === '/eversdk.wasm') {
             console.log('loadEverWeb: wasm fall calling detected');
             args[0] = 'https://everscale-connect.svoi.dev/ever/everSdk/eversdk.wasm';
         }
         return _fetch(...args)
     }
 
-    try{
+    try {
         console.log('Before import')
-        console.log(window.tonclientWeb);
-        await import("https://everscale-connect.svoi.dev/ever/everSdk/main.js");
+
+        //Dont load tonClientWeb if it is already loaded
+        if(!window.tonclientWeb) {
+            await import("https://everscale-connect.svoi.dev/ever/everSdk/main.js");
+        }
         console.log('After import')
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 
 
-    try{
+    try {
         tonclientWeb.libWebSetup({
             binaryURL: '/eversdk.wasm',
         });
         tonclientWeb.TonClient.useBinaryLibrary(tonclientWeb.libWeb);
-    }catch (e) {
+    } catch (e) {
         console.log(e)
     }
 
