@@ -40,6 +40,10 @@ class Contract {
             this[name].deploy = async function (args = undefined) {
                 return await that.deployMethod(name, args);
             }
+
+            this[name].payload = async function (args = undefined) {
+                return await that.deployPayload(name, args);
+            }
         }
     }
 
@@ -85,6 +89,15 @@ class Contract {
         return balance;
     }
 
+    /**
+     * Run local contract method
+     * @param abi
+     * @param address
+     * @param functionName
+     * @param input
+     * @returns {Promise<any>}
+     * @private
+     */
     async _runLocal(abi, address, functionName, input = {}) {
         let TON = this.ton;
 
@@ -122,23 +135,50 @@ class Contract {
     }
 
     /**
+     * Create method call payload
+     * @param abi
+     * @param functionName
+     * @param input
+     * @param signer
+     * @returns {Promise<*>}
+     * @private
+     */
+    async _encodeCallBody(abi, functionName, input = {}, signer = {type: 'None'}) {
+        let TON = this.ton;
+        return (await TON.abi.encode_message_body({
+            abi: {
+                type: 'Contract',
+                value: (abi)
+            },
+            call_set: {
+                function_name: functionName,
+                input: input
+            },
+            is_internal: true,
+            signer: signer
+        })).body;
+    }
+
+    /**
      * Run method locally
      * @param {string} method
      * @param {array|object} args
      * @returns {Promise<*>}
      */
     async getMethod(method, args = {}) {
-        /*return (await this.ton.contracts.runLocal({
-            abi: this.abi,
-            functionName: method,
-            input: args,
-            address: this.address
-        })).output;*/
-
         return await this._runLocal(this.abi, this.address, method, args);
-        //return await this.contract.functions[method].runGet(args);
     }
 
+
+    /**
+     * Get call payload
+     * @param method
+     * @param args
+     * @returns {Promise<*>}
+     */
+    async deployPayload(method, args = {}) {
+        return await this._encodeCallBody(this.abi, method, args);
+    }
 
 
     /**
@@ -148,6 +188,8 @@ class Contract {
      * @returns {Promise<*>}
      */
     async deployMethod(method, args = {}) {
+        throw new Error('Not implemented yet');
+
         let params = {
             address: this.address,
             abi: this.abi,

@@ -74,12 +74,6 @@ class EverWeb extends EventEmitter3 {
         //Load TONClient
         await loadEverWeb();
 
-
-        //Create "oldschool" ton provider
-       /* this.ton =  await TONClient.create({
-            servers: [this.networkServer]
-        });*/
-
         this.ton = new tonclientWeb.TonClient({
             network: {
                 server_address: this.networkServer
@@ -159,10 +153,6 @@ class EverWeb extends EventEmitter3 {
             this.network = 'local';
         }
 
-        //Recreate TON provider
-       /* this.ton = await TONClient.create({
-            servers: [this.networkServer]
-        });*/
 
         this.ton = new tonclientWeb.TonClient({
             network: {
