@@ -9,7 +9,7 @@ class EverscaleUtils {
      * @returns {Promise<any>}
      * @private
      */
-    async static runLocal(TON, abi, address, functionName, input = {}) {
+    async runLocal(TON, abi, address, functionName, input = {}) {
 
         const account = (await TON.net.query_collection({
             collection: 'accounts',
@@ -54,7 +54,7 @@ class EverscaleUtils {
      * @returns {Promise<*>}
      * @private
      */
-    async static encodeCallBody(TON, abi, functionName, input = {}, signer = {type: 'None'}) {
+    async encodeCallBody(TON, abi, functionName, input = {}, signer = {type: 'None'}) {
         return (await TON.abi.encode_message_body({
             abi: {
                 type: 'Contract',
@@ -70,4 +70,6 @@ class EverscaleUtils {
     }
 }
 
-export default {runLocal: EverscaleUtils.runLocal, encodeCallBody: EverscaleUtils.encodeCallBody};
+let everscaleUtils = new EverscaleUtils();
+
+export default {runLocal: everscaleUtils.runLocal, encodeCallBody: everscaleUtils.encodeCallBody};
