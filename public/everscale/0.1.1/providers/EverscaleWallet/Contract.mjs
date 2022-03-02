@@ -102,7 +102,7 @@ class Contract {
     async getMethod(method, args = {}) {
 
 
-        return await everscaleUtils.runLocal(this.ton, this.abi, this.address, this.method, args);
+        return await everscaleUtils.runLocal(this.ton, this.abi, this.address, method, args);
 
         /*
 
