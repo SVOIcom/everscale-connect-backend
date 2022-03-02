@@ -39,6 +39,7 @@
 
     //Ton punks contract
     let tip31 = await (new TIP31Root(EVER)).init('0:d893fe68910b9d65446a7a4e8adb245e8c9bc5d981ced60a9dd1546dca9d6500');
+    window.tip31 = tip31;;
 
     let tokenInfo = await tip31.getTokenInfo()
 
