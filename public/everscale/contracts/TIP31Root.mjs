@@ -1,8 +1,9 @@
-import {UTILS as utils} from "../0.1.1/getProvider.mjs";
-import {ABIS_URLS} from "../0.1.1/constants.mjs";
+import {CONSTANTS, UTILS as utils} from "../getProvider.mjs";
 
-const EMPTY_ADDRESS = "0:0000000000000000000000000000000000000000000000000000000000000000";
-
+/**
+ * TIP-3.1 contract implementation for Everscale Connect
+ * @class TIP31Root
+ */
 class TIP31Root {
     /**
      *
@@ -15,10 +16,14 @@ class TIP31Root {
 
 
     async init(address) {
-        this.contract = await this.ton.loadContract(ABIS_URLS.TIP31_ROOT, address);
+        this.contract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP31_ROOT, address);
         return this;
     }
 
+    /**
+     * Return token info
+     * @returns {Promise<{symbol: *, totalSupply: number, decimals: number, name: *, icon: null}>}
+     */
     async getTokenInfo() {
         try {
             let name = (await this.contract.name({answerId: 0})).value0;
@@ -38,6 +43,36 @@ class TIP31Root {
             console.log(e);
             throw e;
         }
+    }
+
+    /**
+     * Get wallet address by owner address
+     * @param {string} walletOwner Owner address
+     * @returns {Promise<*>}
+     */
+    async getWalletAddressByMultisig(walletOwner) {
+
+        return (await this.contract.walletOf({
+            answerId: 0,
+            walletOwner
+        })).value0;
+    }
+
+    //TODO: add wallet instance by address
+
+
+    /**
+     * Create deploy wallet payload
+     * @param {string} ownerAddress
+     * @param {string|number} deployWalletValue
+     * @returns {Promise<*>}
+     */
+    async deployWalletPayload(ownerAddress, deployWalletValue = 5e8) {
+        return await this.contract.deployWallet({
+            answerId: 0,
+            deployWalletValue: deployWalletValue,
+            walletOwner: ownerAddress
+        }).payload;
     }
 
 }
