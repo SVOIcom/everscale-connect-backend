@@ -18,7 +18,7 @@ import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
 import utils from "../../utils.mjs";
 //import loadTonWeb from "../TonWebLoader.mjs";
-import loadEverWeb from "../EverWebLoader.mjs.mjs";
+import loadEverWeb from "../EverWebLoader.mjs";
 
 
 const NETWORKS = {
