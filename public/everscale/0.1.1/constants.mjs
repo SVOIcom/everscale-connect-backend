@@ -33,7 +33,7 @@ const ABIS_URLS = {
     SAFE_MULTISIG: SAFE_MULTISIG_ABI,
     ERC721: 'https://everscale-connect.svoi.dev/contracts/abi/ERC721.abi.json',
     TIP31_ROOT: 'https://everscale-connect.svoi.dev/contracts/abi/TIP3.1/TokenRoot.abi.json',
-    TIP31_WALLET: '',
+    TIP31_WALLET: 'https://everscale-connect.svoi.dev/contracts/abi/TIP3.1/TokenWallet.abi.json',
 }
 
 export {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, BACKEND_PROVIDER_API_URL, ABIS_URLS, STATUS_UPDATE_INTERVAL};
