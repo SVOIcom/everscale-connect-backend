@@ -12,7 +12,7 @@
         PROVIDERS,
         UTILS
     } from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
-    import TIP31 from "https://everscale-connect.svoi.dev/everscale/contracts/TIP31.mjs";
+    import TIP31Root from "https://everscale-connect.svoi.dev/everscale/contracts/TIP31Root.mjs";
 
     window.getProvider = getProvider;
     window.PROVIDERS = PROVIDERS;
@@ -38,7 +38,7 @@
     window.EVER = EVER;
 
     //Ton punks contract
-    let tip31 = await (new TIP31(EVER)).init('0:d893fe68910b9d65446a7a4e8adb245e8c9bc5d981ced60a9dd1546dca9d6500');
+    let tip31 = await (new TIP31Root(EVER)).init('0:d893fe68910b9d65446a7a4e8adb245e8c9bc5d981ced60a9dd1546dca9d6500');
 
     let tokenInfo = await tip31.getTokenInfo()
 
