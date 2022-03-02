@@ -101,6 +101,8 @@ class EverscaleWallet extends EventEmitter3 {
             throw new Error("TONWallet extension not found");
         }
 
+        console.log('!!!1');
+
         this.provider = await window.getTONWeb();
 
         //Check extraTON connection
@@ -119,6 +121,7 @@ class EverscaleWallet extends EventEmitter3 {
             servers: [(await this.provider.network.get()).network.url]
         });*/
 
+        console.log('!!!2');
         await loadEverWeb();
         this.ton = new tonclientWeb.TonClient({
             network: {
@@ -132,6 +135,8 @@ class EverscaleWallet extends EventEmitter3 {
 
             console.log('Cant update tonWeb', e);
         }
+
+        console.log('!!!3');
 
         //Changes watchdog timer
         const syncNetwork = async () => {
