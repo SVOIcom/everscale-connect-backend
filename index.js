@@ -88,6 +88,7 @@ if(cluster.isMaster) {
         App.expressApp.use('/modules/freeton', express.static('node_modules/freeton/src'));
         App.expressApp.use('/modules/ton-client-web-js', express.static('node_modules/ton-client-web-js/'));
         App.expressApp.use('/ton', express.static('dist'));
+        App.expressApp.use('/ever', express.static('dist'));
         App.expressApp.use('/tonclient.wasm', express.static('dist/tonclient.wasm'));
         App.expressApp.use('/eversdk.wasm', express.static('dist/eversdk.wasm'));
 

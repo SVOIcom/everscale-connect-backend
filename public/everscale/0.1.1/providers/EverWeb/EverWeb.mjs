@@ -17,7 +17,8 @@
 import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
 import utils from "../../utils.mjs";
-import loadTonWeb from "../TonWebLoader.mjs";
+//import loadTonWeb from "../TonWebLoader.mjs";
+import loadEverWeb from "../EverWebLoader.mjs.mjs";
 
 
 const NETWORKS = {
@@ -71,7 +72,7 @@ class EverWeb extends EventEmitter3 {
         console.log('TonWeb provider used');
 
         //Load TONClient
-        await loadTonWeb();
+        await loadEverWeb();
 
 
         //Create "oldschool" ton provider

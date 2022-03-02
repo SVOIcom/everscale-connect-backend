@@ -3,7 +3,7 @@ async function loadTonWeb(){
     window.fetch = (...args)=>{
         if(args[0] === '/tonclient.wasm'){
             console.log('TonWebModule: wasm fall calling detected');
-            args[0] = 'https://everscale-connect.svoi.dev/eversdk.wasm';
+            args[0] = 'https://everscale-connect.svoi.dev/tonclient.wasm';
         }
         return _fetch(...args)
     }
