@@ -148,6 +148,12 @@ class EverscaleWallet extends EventEmitter3 {
                     this.network = networkServer;
                 }
                 this.networkServer = networkServer;
+
+                this.ever = new tonclientWeb.TonClient({
+                    network: {
+                        server_address: this.networkServer
+                    }
+                });
             }
 
             //Watch for account changed
