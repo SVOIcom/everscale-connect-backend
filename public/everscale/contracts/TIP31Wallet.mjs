@@ -24,11 +24,23 @@ class TIP31Wallet {
 
     /**
      * Get wallet token balance
-     * @param {string} walletAddress
      * @returns {Promise<number>}
      */
-    async getBalance(walletAddress) {
+    async getBalance() {
         return (await this.contract.balance({answerId: 0})).value0;
+    }
+
+    /**
+     * Check is contract deployed
+     * @returns {Promise<boolean>}
+     */
+    async isDeployed() {
+        try {
+            await this.getBalance();
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 
     /**
