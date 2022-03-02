@@ -1,7 +1,6 @@
 async function loadEverWeb() {
     if(window.tonclientWeb) {
-        console.log('tonclientWeb already loaded');
-       return;
+        window.tonclientWeb = undefined;
     }
     let _fetch = window.fetch;
     window.fetch = (...args) => {
@@ -14,7 +13,7 @@ async function loadEverWeb() {
 
     try {
         console.log('Before import')
-
+        console.log(window.tonclientWeb);
         //Dont load tonClientWeb if it is already loaded
         if(!window.tonclientWeb) {
             await import("https://everscale-connect.svoi.dev/ever/everSdk/main.js");
