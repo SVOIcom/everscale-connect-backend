@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Everscale Connect Test</title>
+</head>
+<body>
+
+<!-- Importing Everscale Connect directly -->
+<script src="https://everscale-connect.svoi.dev/everscale/index.mjs" type="module"></script>
+
+
+<script type="module">
+
+    //Now we using module without direct import
+    /*import {
+        default as getProvider,
+        PROVIDERS,
+        UTILS
+    } from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";*/
+    import ERC721 from "./ERC721.mjs";
+
+
+    const DEFAULT_WALLET = EverscaleConnect.PROVIDERS.EverWeb;
+
+    let EVER = null;
+    try {
+
+        //Initialize provider
+        EVER = await EverscaleConnect.getProvider({
+            network: 'main',
+            networkServer: 'main2.ton.dev'
+        }, DEFAULT_WALLET);
+        await EVER.requestPermissions();
+        await EVER.start();
+    } catch (e) {
+        console.log(e);
+        alert('Everscale connection error ' + e.message);
+    }
+    window.EVER = EVER;
+
+    //Ton punks contract
+    let erc721 = await (new ERC721(EVER)).init('0:10c094a246e044ce080777cf1ae6294d0a4c924ac17a19e22528d120bd7a63e5');
+
+    let tonPunksMinted = await erc721.getTokenSupplyInfo()
+
+    alert('ScalePunks total minted tokens is ' + tonPunksMinted.mintedTokens);
+
+
+</script>
+</body>
+</html>
