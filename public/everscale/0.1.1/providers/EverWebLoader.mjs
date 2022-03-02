@@ -1,4 +1,8 @@
 async function loadEverWeb() {
+    if(window.tonclientWeb) {
+        console.log('tonclientWeb already loaded');
+       return;
+    }
     let _fetch = window.fetch;
     window.fetch = (...args) => {
         if(args[0] === '/eversdk.wasm') {
