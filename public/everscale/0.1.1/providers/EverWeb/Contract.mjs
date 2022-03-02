@@ -85,7 +85,7 @@ class Contract {
             result: 'balance acc_type id acc_type_name workchain_id'
         })
 
-        return {...rawAccount.result,};
+        return {...rawAccount.result[0],};
     }
 
     /**
