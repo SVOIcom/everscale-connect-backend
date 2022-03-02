@@ -12,13 +12,13 @@ async function loadEverWeb() {
     }
 
     try {
-        console.log('Before import')
-        console.log(window.tonclientWeb);
         //Dont load tonClientWeb if it is already loaded
         if(!window.tonclientWeb) {
             await import("https://everscale-connect.svoi.dev/ever/everSdk/main.js");
+        } else {
+            console.log('loadEverWeb: tonclientWeb defined for some reason', window.tonclientWeb);
         }
-        console.log('After import')
+
     } catch (e) {
         console.log(e);
     }
