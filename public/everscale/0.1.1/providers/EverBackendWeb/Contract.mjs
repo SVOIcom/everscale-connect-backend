@@ -92,7 +92,7 @@ class Contract {
      * @returns {Promise<*>}
      */
     async getAccount() {
-        return await this.ever.contracts.getAccount(this.address);
+        throw new Error('Not implemented');
     }
 
     /**

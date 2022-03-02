@@ -1,13 +1,5 @@
-/*
-  _______          _____                _     _
- |__   __|        |  __ \              (_)   | |
-    | | ___  _ __ | |__) | __ _____   ___  __| | ___ _ __
-    | |/ _ \| '_ \|  ___/ '__/ _ \ \ / / |/ _` |/ _ \ '__|
-    | | (_) | | | | |   | | | (_) \ V /| | (_| |  __/ |
-    |_|\___/|_| |_|_|   |_|  \___/ \_/ |_|\__,_|\___|_|
- */
 /**
- * @name FreeTON connection provider
+ * @name Everscale connection provider
  * @copyright SVOI.dev Labs - https://svoi.dev
  * @license Apache-2.0
  * @version 1.0
@@ -16,26 +8,8 @@
 import Contract from "./Contract.mjs";
 import utils from "../../utils.mjs";
 
-import {ABIS_URLS, SAFE_MULTISIG_ABI, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
+import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, STATUS_UPDATE_INTERVAL, ABIS_URLS} from "../../constants.mjs";
 import loadEverWeb from "../EverWebLoader.mjs";
-
-const NETWORKS = {
-    main: 'main2.ton.dev',
-    test: 'net.ton.dev'
-};
-
-const REVERSE_NETWORKS = {
-    'main.ton.dev': 'main',
-    'main2.ton.dev': 'main',
-    'net.ton.dev': 'test'
-}
-
-const EXPLORERS = {
-    test: 'net.ton.live',
-    main: 'main.ton.live',
-    local: 'main.ton.live',
-}
-
 
 /**
  * extraTON provider class
@@ -43,18 +17,6 @@ const EXPLORERS = {
 class EverscaleWallet extends EventEmitter3 {
     constructor(options = {provider: window.freeton}) {
 
-        /*try {
-            Object.defineProperty(window, 'TONClient', {
-                get: function () {
-                    return window._TONClient
-                }, set: (val) => {
-                    window._TONClient = val;
-                    console.log(TONClient)
-                }
-            });
-        }catch (e) {
-            
-        }*/
 
         try {
             if(!window.TONClient.setWasmOptions) {
@@ -101,8 +63,6 @@ class EverscaleWallet extends EventEmitter3 {
             throw new Error("TONWallet extension not found");
         }
 
-        console.log('!!!1');
-
         this.provider = await window.getTONWeb();
 
         //Check extraTON connection
@@ -110,18 +70,10 @@ class EverscaleWallet extends EventEmitter3 {
             await this.provider.extension.getVersion();
         } catch (e) {
             console.error(e);
-            throw new Error("Can't access to TONWallet");
+            throw new Error("Can't access to Everscale Wallet");
         }
 
         //Load TONClient
-       /* await loadTonWeb();
-
-        //Create "oldschool" ton provider
-        this.ton = await TONClient.create({
-            servers: [(await this.provider.network.get()).network.url]
-        });*/
-
-        console.log('!!!2');
         await loadEverWeb();
         this.ton = new tonclientWeb.TonClient({
             network: {
@@ -135,8 +87,6 @@ class EverscaleWallet extends EventEmitter3 {
 
             console.log('Cant update tonWeb', e);
         }
-
-        console.log('!!!3');
 
         //Changes watchdog timer
         const syncNetwork = async () => {
