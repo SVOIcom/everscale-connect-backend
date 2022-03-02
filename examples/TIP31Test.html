@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>TonConnect Test</title>
+    <title>TIP-3.1 Test</title>
 </head>
 <body>
 
@@ -12,7 +12,7 @@
         PROVIDERS,
         UTILS
     } from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
-    import ERC721 from "./ERC721.mjs";
+    import TIP31 from "https://everscale-connect.svoi.dev/everscale/contracts/TIP31.mjs";
 
     window.getProvider = getProvider;
     window.PROVIDERS = PROVIDERS;
@@ -38,9 +38,11 @@
     window.EVER = EVER;
 
     //Ton punks contract
-    let erc721 = await (new ERC721(EVER)).init('0:10c094a246e044ce080777cf1ae6294d0a4c924ac17a19e22528d120bd7a63e5');
+    let tip31 = await (new TIP31(EVER)).init('0:d893fe68910b9d65446a7a4e8adb245e8c9bc5d981ced60a9dd1546dca9d6500');
 
-    let tonPunksMinted = await erc721.getTokenSupplyInfo()
+    let tokenInfo = await tip31.getTokenInfo()
+
+    console.log(tokenInfo);
 
     alert('ScalePunks total minted tokens is ' + tonPunksMinted.mintedTokens);
 
