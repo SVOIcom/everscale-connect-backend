@@ -141,12 +141,27 @@ Import directly from https://everscale-connect.svoi.dev/everscale/contracts/ERC7
 Used only for current version of ScalePunks.com.
 
 For demos see 
-* [examples/tonpunksMintPunkRaw.html](examples/tonpunksMintPunkRaw.html)
-* [examples/gettonpunksinfo.html](examples/gettonpunksinfo.html)
-* [examples/getScalePunksInfoEverWeb.html](examples/getScalePunksInfoEverWeb.html)
-* [examples/getScalePunksInfoEverWebNative.html](examples/getScalePunksInfoEverWebNative.html)
+* [examples/tonpunksMintPunkRaw.html](https://everscale-connect.svoi.dev/examples/tonpunksMintPunkRaw.html)
+* [examples/gettonpunksinfo.html](https://everscale-connect.svoi.dev/examples/gettonpunksinfo.html)
+* [examples/getScalePunksInfoEverWeb.html](https://everscale-connect.svoi.dev/examples/getScalePunksInfoEverWeb.html)
+* [examples/getScalePunksInfoEverWebNative.html](https://everscale-connect.svoi.dev/examples/getScalePunksInfoEverWebNative.html)
 
-## Projects using TonConnect
+## Demos
+
+ScalePunks.com ERC721 demos:
+* [examples/tonpunksMintPunkRaw.html](https://everscale-connect.svoi.dev/examples/tonpunksMintPunkRaw.html)
+* [examples/gettonpunksinfo.html](https://everscale-connect.svoi.dev/examples/gettonpunksinfo.html)
+* [examples/getScalePunksInfoEverWeb.html](https://everscale-connect.svoi.dev/examples/getScalePunksInfoEverWeb.html)
+* [examples/getScalePunksInfoEverWebNative.html](https://everscale-connect.svoi.dev/examples/getScalePunksInfoEverWebNative.html)
+
+
+TIP-3.1 demo
+* [examples/TIP31Test.html](https://everscale-connect.svoi.dev/examples/TIP31Test.html)
+
+EVER transfer demo
+* [examples/transferTons.html](https://everscale-connect.svoi.dev/examples/transferTons.html)
+
+## Projects using Everscale-Connect
 
 * Upcoming project...
 * [ScalePunks.com](https://scalepunks.com)
