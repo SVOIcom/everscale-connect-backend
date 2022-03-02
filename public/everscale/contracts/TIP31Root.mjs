@@ -68,11 +68,11 @@ class TIP31Root {
      * @returns {Promise<*>}
      */
     async deployWalletPayload(ownerAddress, deployWalletValue = 5e8) {
-        return await this.contract.deployWallet({
+        return await this.contract.deployWallet.payload({
             answerId: 0,
             deployWalletValue: deployWalletValue,
             walletOwner: ownerAddress
-        }).payload;
+        });
     }
 
 }
