@@ -15,7 +15,7 @@
 
 import Contract from "./Contract.mjs";
 import utils from "../../utils.mjs";
-import loadTonWeb from "../TonWebLoader.mjs";
+
 import {ABIS_URLS, SAFE_MULTISIG_ABI, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
 import loadEverWeb from "../EverWebLoader.mjs";
 
