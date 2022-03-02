@@ -9,7 +9,9 @@ async function loadEverWeb(){
     }
 
     try{
+        console.log('Before import')
         await import("https://everscale-connect.svoi.dev/ever/everSdk/main.js");
+        console.log('After import')
     }catch (e) {
         console.log(e);
     }
