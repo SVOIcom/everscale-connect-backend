@@ -127,7 +127,7 @@ const CURRENT_USER_WALLET_ADDRESS = (await EVER.getWallet()).address;
 let token = await (new TIP31Root(EVER)).init();
 
 //Get user wallet objec
-let wallet = await tip31.getWalletByMultisig(CURRENT_USER_WALLET_ADDRESS);
+let wallet = await token.getWalletByMultisig(CURRENT_USER_WALLET_ADDRESS);
 
 console.log('User balance', await wallet.balance());
 
@@ -142,7 +142,7 @@ const DESTINATION_WALLET = await token.getWalletAddressByMultisig(DESTINATION_MU
 let transferPayload = await wallet.transferPayload(DESTINATION_WALLET, AMOUNT);
 
 //Making transfer
-await EVER.walletTransfer(wallet.address ,1e9, transferPayload, true);
+await EVER.walletTransfer(wallet.address, 1e9, transferPayload, true);
 
 ```
 
