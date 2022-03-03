@@ -124,7 +124,7 @@ const CURRENT_USER_WALLET_ADDRESS = (await EVER.getWallet()).address;
 
 
 //Initialize token root contract
-let token = await (new TIP31Root(EVER)).init();
+let token = await (new TIP31Root(EVER)).init(WHISKEY_TOKEN_ADDRESS);
 
 //Get user wallet objec
 let wallet = await token.getWalletByMultisig(CURRENT_USER_WALLET_ADDRESS);
