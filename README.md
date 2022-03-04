@@ -129,7 +129,7 @@ let token = await (new TIP31Root(EVER)).init(WHISKEY_TOKEN_ADDRESS);
 //Get user wallet objec
 let wallet = await token.getWalletByMultisig(CURRENT_USER_WALLET_ADDRESS);
 
-console.log('User balance', await wallet.balance());
+console.log('User balance', await wallet.getBalance());
 
 //Transfer demo
 const AMOUNT = 1;
