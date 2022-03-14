@@ -11,7 +11,7 @@ module.exports = async function getTonInstance(network = 'main2.ton.dev') {
 
     let EVER = everInstances[network] = new TonClient({
         network: {
-            server_address: network
+            endpoints:[network]
         }
     });
 
