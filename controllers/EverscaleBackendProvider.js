@@ -37,7 +37,7 @@ class EverscaleBackendProvider extends _App {
 
        // console.time(callLog);
 
-        let result = await this.cache.load(`${method}-${address}-${networkServer}`, async () => {
+        let result = await this.cache.load(`${method}-${address}-${networkServer}-${JSON.stringify(this.post.input)}`, async () => {
             let EVER = await require('../modules/utils/EVER')(networkServer);
 
 
@@ -63,7 +63,7 @@ class EverscaleBackendProvider extends _App {
         let callLog = `Payload: ${method} ${networkServer}`;
 
        // console.time(callLog);
-        let result = await this.cache.load(`${method}-${networkServer}`, async () => {
+        let result = await this.cache.load(`${method}-${networkServer}-${JSON.stringify(this.post.input)}`, async () => {
             let EVER = await require('../modules/utils/EVER')(networkServer)
 
             try {
