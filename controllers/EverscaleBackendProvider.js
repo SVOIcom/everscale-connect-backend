@@ -22,6 +22,9 @@ const _App = require('./_App');
 
 const DEFAULT_SERVER = 'eri01.main.everos.dev'
 
+const PAYLOAD_CACHE_TIME = 60000; // 1 minute
+const RUN_LOCAL_CACHE_TIME = 10000; // 10 seconds
+
 class EverscaleBackendProvider extends _App {
 
     async index() {
@@ -47,7 +50,7 @@ class EverscaleBackendProvider extends _App {
                 console.log(callLog, 'ERROR', e)
                 return {status: 'error', error: e.message, encodedError: JSON.stringify(e)};
             }
-        }, 5000);
+        }, RUN_LOCAL_CACHE_TIME);
 
         console.timeEnd(callLog);
         return result;
@@ -56,29 +59,39 @@ class EverscaleBackendProvider extends _App {
     }
 
     async payload(networkServer = DEFAULT_SERVER, method) {
-        let EVER = await require('../modules/utils/EVER')(networkServer)
 
-        try {
-            const callSet = {
-                function_name: method,
-                input: this.post.input
-            }
-            const encoded_msg = await EVER.abi.encode_message_body({
-                abi: {
-                    type: 'Json',
-                    value: (this.post.abi)
-                },
-                call_set: callSet,
-                is_internal: true,
-                signer: {
-                    type: 'None'
+        let callLog = `Payload: ${method} ${networkServer}`;
+
+        console.time(callLog);
+        let result = await this.cache.load(`${method}-${networkServer}`, async () => {
+            let EVER = await require('../modules/utils/EVER')(networkServer)
+
+            try {
+                const callSet = {
+                    function_name: method,
+                    input: this.post.input
                 }
-            });
+                const encoded_msg = await EVER.abi.encode_message_body({
+                    abi: {
+                        type: 'Json',
+                        value: (this.post.abi)
+                    },
+                    call_set: callSet,
+                    is_internal: true,
+                    signer: {
+                        type: 'None'
+                    }
+                });
 
-            return {status: 'ok', result: encoded_msg.body}
-        } catch (e) {
-            return {status: 'error', error: e.message, encodedError: JSON.stringify(e)};
-        }
+                return {status: 'ok', result: encoded_msg.body}
+            } catch (e) {
+                return {status: 'error', error: e.message, encodedError: JSON.stringify(e)};
+            }
+        }, PAYLOAD_CACHE_TIME);
+
+        console.timeEnd(callLog);
+        return result;
+
     }
 
 
