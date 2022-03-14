@@ -124,12 +124,12 @@ const CURRENT_USER_WALLET_ADDRESS = (await EVER.getWallet()).address;
 
 
 //Initialize token root contract
-let token = await (new TIP31Root(EVER)).init();
+let token = await (new TIP31Root(EVER)).init(WHISKEY_TOKEN_ADDRESS);
 
 //Get user wallet objec
-let wallet = await tip31.getWalletByMultisig(CURRENT_USER_WALLET_ADDRESS);
+let wallet = await token.getWalletByMultisig(CURRENT_USER_WALLET_ADDRESS);
 
-console.log('User balance', await wallet.balance());
+console.log('User balance', await wallet.getBalance());
 
 //Transfer demo
 const AMOUNT = 1;
@@ -142,7 +142,7 @@ const DESTINATION_WALLET = await token.getWalletAddressByMultisig(DESTINATION_MU
 let transferPayload = await wallet.transferPayload(DESTINATION_WALLET, AMOUNT);
 
 //Making transfer
-await EVER.walletTransfer(wallet.address ,1e9, transferPayload, true);
+await EVER.walletTransfer(wallet.address, 1e9, transferPayload, true);
 
 ```
 
