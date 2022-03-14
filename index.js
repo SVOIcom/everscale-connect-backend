@@ -21,6 +21,8 @@
 //let WORKERS = 1;
 let WORKERS = (require('os').cpus().length) * 2;
 
+const WORKER_SUICIDE_TIME = 5 * 60 * 1000;//5 min
+
 const {FavoritoApp} = require('favorito');
 const fs = require('fs');
 
@@ -100,8 +102,8 @@ if(cluster.isMaster) {
         Twig.extendFilter("shortenPubkey", (text) => Utils.shortenPubkey(text));
         Twig.extendFilter("unsignedNumberToSigned", (text, args) => Utils.unsignedNumberToSigned(text, args[0]));
         Twig.extendFilter("numberToUnsignedNumber", (text, args) => Utils.numberToUnsignedNumber(text, args[0]));
-        Twig.extendFilter("numberToPercent",        (text, args) => Utils.numberToPercent(text));
-        Twig.extendFilter('numberToPretty',    (text, args) => Utils.numberToPretty(text, args[0]));
+        Twig.extendFilter("numberToPercent", (text, args) => Utils.numberToPercent(text));
+        Twig.extendFilter('numberToPretty', (text, args) => Utils.numberToPretty(text, args[0]));
 
 
         await App.start();
@@ -136,6 +138,14 @@ if(cluster.isMaster) {
         console.log('WORKER NEW MESSAGE', process.pid, msg)
     });*/
     //console.log(`Worker ${process.pid} started`);
+
+    if(WORKER_SUICIDE_TIME && WORKER_SUICIDE_TIME !== 0) {
+        setTimeout(() => {
+            console.log(`Worker ${process.pid} suicide`);
+            process.exit();
+        }, 5000)
+    }
+
 }
 
 
