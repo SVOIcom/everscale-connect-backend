@@ -143,7 +143,7 @@ if(cluster.isMaster) {
         setTimeout(() => {
             console.log(`Worker ${process.pid} suicide`);
             process.exit();
-        }, 5000)
+        }, WORKER_SUICIDE_TIME)
     }
 
 }
