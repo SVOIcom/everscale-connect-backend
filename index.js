@@ -21,7 +21,7 @@
 //let WORKERS = 1;
 let WORKERS = (require('os').cpus().length) * 2;
 
-const WORKER_SUICIDE_TIME = 5 * 60 * 1000;//5 min
+const WORKER_SUICIDE_TIME =  5 * 60 * 1000;//5 min
 
 const {FavoritoApp} = require('favorito');
 const fs = require('fs');
@@ -143,7 +143,7 @@ if(cluster.isMaster) {
         setTimeout(() => {
             console.log(`Worker ${process.pid} suicide`);
             process.exit();
-        }, WORKER_SUICIDE_TIME)
+        }, WORKER_SUICIDE_TIME + (Math.round(Math.random() * 10000)))
     }
 
 }

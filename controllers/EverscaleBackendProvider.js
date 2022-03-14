@@ -99,7 +99,7 @@ class EverscaleBackendProvider extends _App {
         return {
             test: await this.cache.load('test', async () => {
                 return Math.random()
-            })
+            }, 30000)
         };
     }
 

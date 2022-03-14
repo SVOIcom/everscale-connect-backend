@@ -6,7 +6,7 @@ const config = {
 
     // FAVORITO
     bindPort: 3019,
-    maxWorkers: 1,
+    maxWorkers: 2,
     workerLifetime: 1200 * 1000, //20 mins
     sharedCacheName: 'everscaleConnect',
     indexController: "Index",

@@ -29,6 +29,10 @@ module.exports = function (cacheName = 'sharedCache') {
          * @returns {Promise<*>}
          */
         load: async function (key, dataCallback, timeout = 3000) {
+            if(cache[key + '_time'] < Date.now()){
+                await this.reset(key);
+            }
+
             let cachedValue = cache[key];
             if(cachedValue !== undefined) {
                 return cachedValue;
@@ -37,13 +41,15 @@ module.exports = function (cacheName = 'sharedCache') {
             let fnResult = await dataCallback();
 
             cache[key] = fnResult;
+            cache[key + '_time'] = Date.now() + timeout;
 
-            timers[key] = setTimeout(() => {
+           /* timers[key] = setTimeout(() => {
                 cache[key] = undefined;
+                timers[key] = undefined;
                 timers[key] = undefined;
                 delete cache[key];
                 delete timers[key];
-            }, timeout);
+            }, timeout);*/
 
 
             return fnResult;
@@ -54,11 +60,13 @@ module.exports = function (cacheName = 'sharedCache') {
          */
         reset(key) {
             if(cache[key] !== undefined) {
-                clearTimeout(timers[key]);
+              //  clearTimeout(timers[key]);
                 cache[key] = undefined;
+                cache[key + '_time'] = undefined;
                 delete cache[key];
-                timers[key] = undefined;
-                delete timers[key];
+                delete cache[key + '_time'];
+                //timers[key] = undefined;
+               // delete timers[key];
             }
         }
     }
