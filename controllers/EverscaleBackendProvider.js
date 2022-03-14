@@ -29,13 +29,23 @@ class EverscaleBackendProvider extends _App {
     }
 
     async runLocal(networkServer = DEFAULT_SERVER, address, method) {
+
+        let callLog = `Call: ${method} ${address} ${networkServer}`;
+
+        console.time(callLog);
+
         let EVER = await require('../modules/utils/EVER')(networkServer)
+
 
         try {
             let result = await EVER.runLocal(address, this.post.abi, method, this.post.input);
 
+            console.timeEnd(callLog);
             return {status: 'ok', result}
         } catch (e) {
+
+            console.log(callLog, 'ERROR', e)
+            console.timeEnd(callLog);
             return {status: 'error', error: e.message, encodedError: JSON.stringify(e)};
         }
 
