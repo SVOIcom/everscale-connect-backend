@@ -34,20 +34,23 @@ class EverscaleBackendProvider extends _App {
 
         console.time(callLog);
 
-        let EVER = await require('../modules/utils/EVER')(networkServer)
+        let result = await this.cache.load(`${method}-${address}-${networkServer}`, async () => {
+            let EVER = await require('../modules/utils/EVER')(networkServer);
 
 
-        try {
-            let result = await EVER.runLocal(address, this.post.abi, method, this.post.input);
+            try {
+                let result = await EVER.runLocal(address, this.post.abi, method, this.post.input);
 
-            console.timeEnd(callLog);
-            return {status: 'ok', result}
-        } catch (e) {
+                return {status: 'ok', result}
+            } catch (e) {
 
-            console.log(callLog, 'ERROR', e)
-            console.timeEnd(callLog);
-            return {status: 'error', error: e.message, encodedError: JSON.stringify(e)};
-        }
+                console.log(callLog, 'ERROR', e)
+                return {status: 'error', error: e.message, encodedError: JSON.stringify(e)};
+            }
+        }, 5000);
+
+        console.timeEnd(callLog);
+        return result;
 
 
     }
@@ -78,6 +81,14 @@ class EverscaleBackendProvider extends _App {
         }
     }
 
+
+    async cacheTest() {
+        return {
+            test: await this.cache.load('test', async () => {
+                return Math.random()
+            })
+        };
+    }
 
     async config() {
         return {};
