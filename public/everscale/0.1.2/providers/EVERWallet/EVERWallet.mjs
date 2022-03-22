@@ -371,7 +371,7 @@ class EVERWallet extends EventEmitter3 {
      * @returns {Promise<*>}
      */
     async signDataRaw(publicKey, data = ''){
-        return await this.provider.signDataRaw(publicKey, data);
+        return await this.provider.signDataRaw({publicKey: publicKey, data: data});
     }
 
     /**
