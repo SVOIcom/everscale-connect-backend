@@ -292,6 +292,43 @@ class EverscaleWallet extends EventEmitter3 {
     getIconUrl() {
         return 'https://github.com/SVOIcom/browser-extension/raw/main/icons/128.png'
     }
+
+    /**
+     * Sign data
+     * @param publicKey
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async signDataRaw(publicKey, data = ''){
+        return await this.provider.accounts.signDataRaw(publicKey, data);
+    }
+
+    /**
+     * Pack into cell
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async packIntoCell(data){
+        return await this.provider.everscale.packIntoCell(data);
+    }
+
+    /**
+     * Unpack from cell
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async unpackFromCell(data){
+        return await this.provider.everscale.unpackFromCell(data);
+    }
+
+    /**
+     * Verify signed data
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async verifySignature(data){
+        return await this.provider.everscale.verifySignature(data);
+    }
 }
 
 export default EverscaleWallet;

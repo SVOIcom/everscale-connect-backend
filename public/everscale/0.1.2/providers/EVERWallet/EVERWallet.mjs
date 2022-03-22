@@ -363,6 +363,46 @@ class EVERWallet extends EventEmitter3 {
         return 'https://raw.githubusercontent.com/broxus/ton-wallet-crystal-browser-extension/master/src/popup/icons/icon128.png'
     }
 
+
+    /**
+     * Sign data
+     * @param publicKey
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async signDataRaw(publicKey, data = ''){
+        return await this.provider.signDataRaw(publicKey, data);
+    }
+
+    /**
+     * Pack into cell
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async packIntoCell(data){
+        return await this.provider.packIntoCell(data);
+    }
+
+    /**
+     * Unpack from cell
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async unpackFromCell(data){
+        return await this.provider.unpackFromCell(data);
+    }
+
+    /**
+     * Verify signed data
+     * @param data
+     * @returns {Promise<*>}
+     */
+    async verifySignature(data){
+        return await this.provider.verifySignature(data);
+    }
+
+
+
 }
 
 
