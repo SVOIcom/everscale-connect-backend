@@ -198,7 +198,7 @@ class Contract {
         let transactions = await this.getTransactions(filter, order, limit);
         let decodedTransactions = [];
         for (let transaction of transactions) {
-            let decodedTransaction = await utils.decodeTransaction(this.ton, transaction, methods);
+            let decodedTransaction = await utils.decodeTransaction(this.ton, transaction,this.abi, methods);
             decodedTransactions.push(decodedTransaction);
         }
         return decodedTransactions;
