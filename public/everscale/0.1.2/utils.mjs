@@ -341,7 +341,7 @@ const utils = {
             return {
                 method: result.name,
                 input: result.value,
-                output: result.output,
+                output: result.output||{},
             }
         } catch (e) {
             return null;
