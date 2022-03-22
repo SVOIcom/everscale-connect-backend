@@ -14,6 +14,7 @@
  */
 
 import everscaleUtils from "../../everscaleUtils.mjs";
+import utils from "../../utils.mjs";
 
 /**
  * Contract class
@@ -154,6 +155,43 @@ class Contract {
             method: method,
             params: args
         }
+    }
+
+    /**
+     * Return contract state
+     * @returns {Promise<{}|{state: {balance: number, lastTransactionId: *, isDeployed: boolean, boc, genTimings: {genLt: string, genUtime: number}}}>}
+     */
+    async getState() {
+        return await utils.getFullContractState(this.ton, this.address);
+    }
+
+    /**
+     * Get contract transactions
+     * @param filter Not implemented yet
+     * @param order Not implemented yet
+     * @param limit Not implemented yet
+     * @returns {Promise<*[]>}
+     */
+    async getTransactions(filter = null, order = null, limit = null) {
+        return await utils.getTransactions(this.ton, this.address);
+    }
+
+    /**
+     * Get decoded transactions
+     * @param methods
+     * @param filter
+     * @param order
+     * @param limit
+     * @returns {Promise<*[]>}
+     */
+    async getDecodedTransactions(methods = [], filter = null, order = null, limit = null) {
+        let transactions = await this.getTransactions(filter, order, limit);
+        let decodedTransactions = [];
+        for (let transaction of transactions) {
+            let decodedTransaction = await utils.decodeTransaction(this.ton, transaction,this.abi, methods);
+            decodedTransactions.push(decodedTransaction);
+        }
+        return decodedTransactions;
     }
 
 }
