@@ -24,7 +24,7 @@ class NFTIndexHelper {
     }
 
     async resolveCodeHashNftIndex(collectionAddress, ownerAddress) {
-        return (await this.contract.methods.resolveCodeHashNftIndex({
+        return (await this.contract.resolveCodeHashNftIndex({
             collection: collectionAddress,
             owner: ownerAddress
         })).value0;
