@@ -33,8 +33,8 @@ class TIP4Collection {
         return this;
     }
 
-    async getIndexBasis(address){
-       return  await this.ton.loadContract(CONSTANTS.ABIS_URLS.NFT_INDEX_BASIS, address);
+    async getIndexBasis(address) {
+        return await this.ton.loadContract(CONSTANTS.ABIS_URLS.NFT_INDEX_BASIS, address);
     }
 
 
@@ -78,9 +78,13 @@ class TIP4Collection {
     async getNftByAddress(address) {
         let nft = await (new TIP4Nft(this.ton)).init(address);
 
+        //Make GQL request for hash
+
+        let basis = await this.getIndexBasis('0:d8e72b82d7c1fd1b4802cb222c76ed5a745366a435dac7b56330191417bc6d68');
+        let tokenInfo = await basis.getInfo({"answerId": 0});
+
         return nft;
     }
-
 
 
 }
