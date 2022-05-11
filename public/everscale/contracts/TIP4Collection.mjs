@@ -70,6 +70,13 @@ class TIP4Collection {
         console.log("codehash", codehash);
     }
 
+    async getNftByAddress(address) {
+        let nft = await (new TIP4Nft(this.ton)).init(address);
+
+        return nft;
+    }
+
+
 
 }
 
