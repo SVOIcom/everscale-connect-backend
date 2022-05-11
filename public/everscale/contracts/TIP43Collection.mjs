@@ -43,6 +43,26 @@ class TIP43Collection {
         }
     }
 
+    async totalSupply() {
+        return (await this.collectionContract.totalSupply({"answerId": 0})).count;
+    }
+
+    async getNftAddress(id) {
+        return (await this.collectionContract.nftAddress({"answerId": 0, "id": id})).nft;
+    }
+
+    async nftCodeHash() {
+        return (await this.collectionContract.nftCodeHash({"answerId": 0})).codeHash;
+    }
+
+    async nftCode() {
+        return (await this.collectionContract.nftCode({"answerId": 0})).code;
+    }
+
+    async indexCodeHash() {
+        return (await this.collection43Contract.indexCodeHash({"answerId": 0})).hash;
+    }
+
 
 }
 
