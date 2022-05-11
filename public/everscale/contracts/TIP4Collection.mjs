@@ -29,7 +29,12 @@ class TIP4Collection {
 
         this.nftIndexHelper = await (new NFTIndexHelper(this.ton)).initAuto();
 
+
         return this;
+    }
+
+    async getIndexBasis(address){
+       return  await this.ton.loadContract(CONSTANTS.ABIS_URLS.NFT_INDEX_BASIS, address);
     }
 
 

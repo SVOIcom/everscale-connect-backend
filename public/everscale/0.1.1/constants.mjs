@@ -41,6 +41,7 @@ const ABIS_URLS = {
     TIP41_NFT: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4/ITIP4_1NFT.abi.json',
     TIP6: 'https://everscale-connect.svoi.dev/contracts/abi/TIP6/ITIP_6.abi.json',
     NFT_INDEX_HELPER: 'https://everscale-connect.svoi.dev/contracts/abi/NftIndexHelper/NFTIndexHelper.abi.json',
+    NFT_INDEX_BASIS:  'https://everscale-connect.svoi.dev/contracts/abi/TIP4/IndexBasis.abi.json',
 };
 
 const ADDRESSES = {
