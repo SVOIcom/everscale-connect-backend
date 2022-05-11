@@ -35,7 +35,7 @@ const ABIS_URLS = {
     TIP31_ROOT: 'https://everscale-connect.svoi.dev/contracts/abi/TIP3.1/TokenRoot.abi.json',
     TIP31_WALLET: 'https://everscale-connect.svoi.dev/contracts/abi/TIP3.1/TokenWallet.abi.json',
     TIP43_COLLECTION: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP4_3Collection.abi.json',
-    TIP43_COLLECTION_METADATA: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP4_3Collection.abi.json',
+    TIP43_COLLECTION_METADATA: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP4_2JSON_Metadata.abi.json',
     TIP43_NFT: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP4_3NFT.abi.json',
 }
 
