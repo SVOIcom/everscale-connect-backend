@@ -1,5 +1,6 @@
 import {CONSTANTS, UTILS as utils} from "../getProvider.mjs";
 import TIP4Nft from "./TIP4Nft.mjs";
+import NFTIndexHelper from "./NFTIndexHelper.mjs";
 
 /**
  * TIP-4.3 NFT token collection contract
@@ -25,13 +26,16 @@ class TIP4Collection {
         this.collectionContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP41_COLLECTION, address);
         this.collection43Contract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP43_COLLECTION, address);
         this.metadataContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP42_COLLECTION_METADATA, address);
+
+        this.nftIndexHelper = await (new NFTIndexHelper(this.ton)).initAuto();
+
         return this;
     }
 
 
     async getTokenInfo() {
-            let data = (await this.metadataContract.getJson({answerId: 0})).json;
-            return JSON.parse(data);
+        let data = (await this.metadataContract.getJson({answerId: 0})).json;
+        return JSON.parse(data);
     }
 
     async totalSupply() {
@@ -59,6 +63,11 @@ class TIP4Collection {
         let nft = await (new TIP4Nft(this.ton)).init(nftAddress);
 
         return nft;
+    }
+
+    async getOwnerNfts(owner) {
+        let codehash = await this.nftIndexHelper.resolveCodeHashNftIndex(this.address, owner);
+        console.log("codehash", codehash);
     }
 
 

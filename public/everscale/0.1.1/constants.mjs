@@ -39,7 +39,12 @@ const ABIS_URLS = {
     TIP42_COLLECTION_METADATA: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4/ITIP4_2JSON_Metadata.abi.json',
     TIP43_NFT: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4/ITIP4_3NFT.abi.json',
     TIP41_NFT: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4/ITIP4_1NFT.abi.json',
-    TIP6: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4/ITIP_6.abi.json',
+    TIP6: 'https://everscale-connect.svoi.dev/contracts/abi/TIP6/ITIP_6.abi.json',
+    NFT_INDEX_HELPER: 'https://everscale-connect.svoi.dev/contracts/abi/NftIndexHelper/NFTIndexHelper.abi.json',
+};
+
+const ADDRESSES = {
+    NFT_INDEX_HELPER: '0:388820c348e6b2a5e38c8c8f1bf4088cdc384fc67219bd064f60c7d8d1092eb1',
 }
 
-export {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, BACKEND_PROVIDER_API_URL, ABIS_URLS, STATUS_UPDATE_INTERVAL};
+export {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, BACKEND_PROVIDER_API_URL, ABIS_URLS, STATUS_UPDATE_INTERVAL, ADDRESSES, EMPTY_ADDRESS};
