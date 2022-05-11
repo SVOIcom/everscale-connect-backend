@@ -18,6 +18,7 @@ class TIP43Collection {
 
     async init(address) {
         this.address = address;
+        this.tip6 = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP6, address);
         this.collectionContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP43_COLLECTION, address);
         this.metadataContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP43_COLLECTION_METADATA, address);
         return this;

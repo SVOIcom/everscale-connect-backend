@@ -37,6 +37,7 @@ const ABIS_URLS = {
     TIP43_COLLECTION: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP4_3Collection.abi.json',
     TIP43_COLLECTION_METADATA: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP4_2JSON_Metadata.abi.json',
     TIP43_NFT: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP4_3NFT.abi.json',
+    TIP6: 'https://everscale-connect.svoi.dev/contracts/abi/TIP4.3/ITIP_6.abi.json',
 }
 
 export {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, BACKEND_PROVIDER_API_URL, ABIS_URLS, STATUS_UPDATE_INTERVAL};
