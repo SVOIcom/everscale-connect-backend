@@ -12,6 +12,7 @@ class TIP43Collection {
     constructor(ton) {
         this.ton = ton;
         this.collectionContract = null;
+        this.collection43Contract = null;
         this.metadataContract = null;
         this.address = null;
     }
@@ -20,8 +21,9 @@ class TIP43Collection {
     async init(address) {
         this.address = address;
         this.tip6 = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP6, address);
-        this.collectionContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP43_COLLECTION, address);
-        this.metadataContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP43_COLLECTION_METADATA, address);
+        this.collectionContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP41_COLLECTION, address);
+        this.collection43Contract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP43_COLLECTION, address);
+        this.metadataContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP42_COLLECTION_METADATA, address);
         return this;
     }
 
