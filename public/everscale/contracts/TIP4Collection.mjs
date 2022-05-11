@@ -1,10 +1,11 @@
 import {CONSTANTS, UTILS as utils} from "../getProvider.mjs";
+import TIP4Nft from "./TIP4Nft.mjs";
 
 /**
  * TIP-4.3 NFT token collection contract
- * @class TIP43Collection
+ * @class TIP4Collection
  */
-class TIP43Collection {
+class TIP4Collection {
     /**
      *
      * @param {EverscaleWallet} ton
@@ -27,24 +28,14 @@ class TIP43Collection {
         return this;
     }
 
-    /**
-     * Return token info
-     * @returns {Promise<{symbol: *, totalSupply: number, decimals: number, name: *, icon: null}>}
-     */
+
     async getTokenInfo() {
-        try {
             let data = (await this.metadataContract.getJson({answerId: 0})).json;
-
             return JSON.parse(data);
-
-        } catch (e) {
-            console.log(e);
-            throw e;
-        }
     }
 
     async totalSupply() {
-        return (await this.collectionContract.totalSupply({"answerId": 0})).count;
+        return Number((await this.collectionContract.totalSupply({"answerId": 0})).count);
     }
 
     async getNftAddress(id) {
@@ -63,8 +54,15 @@ class TIP43Collection {
         return (await this.collection43Contract.indexCodeHash({"answerId": 0})).hash;
     }
 
+    async getNft(id) {
+        let nftAddress = await this.getNftAddress(id);
+        let nft = await (new TIP4Nft(this.ton)).init(nftAddress);
+
+        return nft;
+    }
+
 
 }
 
 
-export default TIP43Collection;
+export default TIP4Collection;
