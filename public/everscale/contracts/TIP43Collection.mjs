@@ -1,4 +1,5 @@
 import {CONSTANTS, UTILS as utils} from "../getProvider.mjs";
+
 /**
  * TIP-4.3 NFT token collection contract
  * @class TIP43Collection
@@ -30,9 +31,9 @@ class TIP43Collection {
      */
     async getTokenInfo() {
         try {
-            let data = (await this.metadataContract.getJson({answerId: 0}));
+            let data = (await this.metadataContract.getJson({answerId: 0})).json;
 
-            return data;
+            return JSON.parse(data);
 
         } catch (e) {
             console.log(e);
