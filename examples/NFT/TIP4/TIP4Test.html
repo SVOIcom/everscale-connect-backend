@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>TIP4 Test</title>
+</head>
+<body>
+
+
+<script type="module">
+
+    import {
+        default as getProvider,
+        PROVIDERS,
+        UTILS
+    } from "https://everscale-connect.svoi.dev/everscale/getProvider.mjs";
+    import TIP43Collection from "https://everscale-connect.svoi.dev/everscale/contracts/TIP43Collection.mjs";
+
+    window.getProvider = getProvider;
+    window.PROVIDERS = PROVIDERS;
+    window.UTILS = UTILS;
+
+
+    const DEFAULT_WALLET = PROVIDERS.EverscaleWallet;
+
+    let EVER = null;
+    try {
+
+        //Initialize provider
+        EVER = await getProvider({
+            network: 'main',
+            networkServer: 'alwaysonlineevermainnode.svoi.dev'
+        }, DEFAULT_WALLET);
+        await EVER.requestPermissions();
+        await EVER.start();
+    } catch (e) {
+        console.log(e);
+        alert('Everscale connection error ' + e.message);
+    }
+    window.EVER = EVER;
+
+    //Ton punks contract
+    let tip4 = await (new TIP43Collection(EVER)).init('0:0cd35b77b73df2ce86288cb8530cb6328363543f04da81687e43b3d5628c0bda');
+    window.tip4 = tip4;
+
+
+    let tokenInfo = await tip4.getTokenInfo();
+
+    console.log(tokenInfo);
+
+
+</script>
+</body>
+</html>
