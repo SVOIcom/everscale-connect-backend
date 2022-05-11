@@ -24,10 +24,10 @@ class NFTIndexHelper {
     }
 
     async resolveCodeHashNftIndex(collectionAddress, ownerAddress) {
-        return (await this.contract.resolveCodeHashNftIndex({
+        return String((await this.contract.resolveCodeHashNftIndex({
             collection: collectionAddress,
             owner: ownerAddress
-        })).value0;
+        })).value0).replace(/^0x/, "");
     }
 
 
