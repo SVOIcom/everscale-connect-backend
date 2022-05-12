@@ -4,6 +4,11 @@
 </head>
 <body>
 
+<h2>Token info</h2>
+<span id="tokenInfo"></span>
+
+<h2>Tokens</h2>
+<span id="tokens"></span>
 
 <script type="module">
 
@@ -13,6 +18,9 @@
         UTILS
     } from "https://everscale-connect.svoi.dev/everscale/0.1.3/getProvider.mjs";
     import TIP4Collection from "https://everscale-connect.svoi.dev/everscale/contracts/TIP4Collection.mjs";
+
+    const DEMO_ADDRESS = '0:c1f2b2941fe3ed16960c484db49186363ed4bbb7c825a8128f46d787f973ff2b';
+    const SCALEPUNKS_COLLECTION = '0:0cd35b77b73df2ce86288cb8530cb6328363543f04da81687e43b3d5628c0bda';
 
     window.getProvider = getProvider;
     window.PROVIDERS = PROVIDERS;
@@ -38,13 +46,27 @@
     window.EVER = EVER;
 
     //Ton punks contract
-    let tip4 = await (new TIP4Collection(EVER)).init('0:0cd35b77b73df2ce86288cb8530cb6328363543f04da81687e43b3d5628c0bda');
+    let tip4 = await (new TIP4Collection(EVER)).init(SCALEPUNKS_COLLECTION);
     window.tip4 = tip4;
 
 
     let tokenInfo = await tip4.getTokenInfo();
-
     console.log(tokenInfo);
+
+    document.getElementById('tokenInfo').innerHTML = (JSON.stringify(tokenInfo, null, 2).replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;'));
+
+    let userTokens = await tip4.getOwnerNfts(DEMO_ADDRESS);
+
+    let html = '';
+
+    for(let tokenAddress of userTokens) {
+        let nft = await tip4.getNftByAddress(tokenAddress);
+        let info = await nft.getInfo();
+
+        html += `<div>${nft.name}</div>`;
+    }
+
+
 
 
 </script>

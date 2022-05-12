@@ -22,12 +22,19 @@ class TIP4Nft {
         this.tip6 = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP6, address);
         this.nftContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP41_NFT, address);
         this.nft43Contract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP43_NFT, address);
+        this.metadataContract = await this.ton.loadContract(CONSTANTS.ABIS_URLS.TIP42_COLLECTION_METADATA, address);
+
         return this;
     }
 
     async getInfo() {
         return (await this.nftContract.getInfo({answerId: 0}));
 
+    }
+
+    async getTokenInfo() {
+        let data = (await this.metadataContract.getJson({answerId: 0})).json;
+        return JSON.parse(data);
     }
 
 
