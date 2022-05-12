@@ -267,7 +267,15 @@ class EverscaleWallet extends EventEmitter3 {
         }
 
         if(typeof abiJson === 'string') {
-            abiJson = await ((await fetch(abiJson))).json();
+            let url = abiJson;
+            let cachedAbi = await cache.get(url);
+            if(cachedAbi) {
+                abiJson = cachedAbi;
+            } else {
+                abiJson = await ((await fetch(abiJson))).json();
+                await cache.set(url, abiJson);
+            }
+
         }
 
         let contract = this.initContract(abiJson, address);
