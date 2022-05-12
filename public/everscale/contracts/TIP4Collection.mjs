@@ -84,10 +84,15 @@ class TIP4Collection {
             result: 'id'
         })).result;
 
-        console.log("collectionResult", collectionResult);
+        let nfts = [];
 
-        /*let basis = await this.getIndexBasis('0:d8e72b82d7c1fd1b4802cb222c76ed5a745366a435dac7b56330191417bc6d68');
-        let tokenInfo = await basis.getInfo({"answerId": 0});*/
+        for (let {id} of collectionResult) {
+            let basis = await this.getIndexBasis(id);
+            let tokenInfo = await basis.getInfo({"answerId": 0});
+            nfts.push(tokenInfo);
+        }
+
+        return nfts;
     }
 
     async getNftByAddress(address) {
