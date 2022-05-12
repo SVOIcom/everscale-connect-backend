@@ -2,6 +2,11 @@
 
 Provider available at https://everscale-connect.svoi.dev/everscale/getProvider.mjs
 
+## Version 0.1.3 Updates
+* Removed ExtraTon support
+* Added queryCollection method for all providers. Using same as *.net.query_collection from
+* Add wrapper contracts from TIP-4 tokens 
+
 ## Connection
 
 ### Direct web
@@ -46,11 +51,11 @@ You can choose version by using direct version links:
 
 ```html
 <!-- Import the module with the specific version -->
-<script src="https://everscale-connect.svoi.dev/everscale/0.1.1/index.mjs" type="module"></script>
+<script src="https://everscale-connect.svoi.dev/everscale/0.1.3/index.mjs" type="module"></script>
 
 <script>
     //Import the module with the specific version
-    import * from "https://everscale-connect.svoi.dev/everscale/0.1.1/getProvider.mjs";
+    import * from "https://everscale-connect.svoi.dev/everscale/0.1.3/getProvider.mjs";
 </script>
 ```
 
@@ -94,12 +99,12 @@ See [examples](examples) for mor information
 
 Everscale-Connect now supports these providers and extensions:
 
-* [EverscaleWallet](https://everscalewallet.com/) by SVOI.dev
-* [EVER Wallet](https://l1.broxus.com/everscale/wallet) by Broxus
-* Internal: EverWeb - signing transactions and fetch blockchain information from webpage
-* Internal: EverBackendWeb - only for fetching information from smart contracts
+* [ScaleWallet](https://scalewallet.com/) by SVOI.dev (EverscaleWallet)
+* [EVER Wallet](https://l1.broxus.com/everscale/wallet) by Broxus (EVERWallet)
+* Internal: EverWeb - signing transactions and fetch blockchain information from webpage (EverWeb)
+* Internal: EverBackendWeb - only for fetching information from smart contracts (EverBackendWeb)
 
-Deprecated providers:
+Removed providers:
 * [ExtraTon](https://extraton.io) 
 
 ## Contracts 
@@ -157,6 +162,16 @@ For demos see
 * [examples/getScalePunksInfoEverWeb.html](https://everscale-connect.svoi.dev/examples/getScalePunksInfoEverWeb.html)
 * [examples/getScalePunksInfoEverWebNative.html](https://everscale-connect.svoi.dev/examples/getScalePunksInfoEverWebNative.html)
 
+### TIP-4
+Import directly from https://everscale-connect.svoi.dev/everscale/contracts/TIP4Collection.mjs
+
+**Required everscale-connect version > 0.1.3**
+
+
+For demos see
+* [examples/NFT/TIP4/TIP4Test.html](https://everscale-connect.svoi.dev/examples/NFT/TIP4/TIP4Test.html)
+
+
 ## Demos
 
 ScalePunks.com ERC721 demos:
@@ -172,9 +187,13 @@ TIP-3.1 demo
 EVER transfer demo
 * [examples/transferTons.html](https://everscale-connect.svoi.dev/examples/transferTons.html)
 
+TIP-4 demo
+* [examples/NFT/TIP4/TIP4Test.html](https://everscale-connect.svoi.dev/examples/NFT/TIP4/TIP4Test.html)
+
+
 ## Projects using Everscale-Connect
 
-* Upcoming project...
+* [EverLend.app](https://everlend.app)
 * [ScalePunks.com](https://scalepunks.com)
 * [swap.block-chain.com](swap.block-chain.com) (elder version)
 
