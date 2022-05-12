@@ -12,6 +12,7 @@ import utils from "../../utils.mjs";
 import loadEverWeb from "../EverWebLoader.mjs";
 import {ABIS_URLS, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
 import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI} from "../../constants.mjs";
+import cache from "../../misc/cache.mjs";
 
 
 /**
@@ -209,6 +210,7 @@ class EverWeb extends EventEmitter3 {
         return new Contract(abi, address, this.ton, this);
     }
 
+
     /**
      * Load contract ABI by URL or abi
      * @param {string|object} abiJson
@@ -216,11 +218,30 @@ class EverWeb extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async loadContract(abiJson, address) {
-        if(typeof abiJson === 'string') {
-            abiJson = await ((await fetch(abiJson))).json();
+        let cacheKey = String(abiJson) + address;
+
+        let cached = await cache.get(cacheKey);
+        if(cached) {
+            return cached;
         }
 
-        return this.initContract(abiJson, address)
+        if(typeof abiJson === 'string') {
+            let url = abiJson;
+            let cachedAbi = await cache.get(url);
+            if(cachedAbi) {
+                abiJson = cachedAbi;
+            } else {
+                abiJson = await ((await fetch(abiJson))).json();
+                await cache.set(url, abiJson);
+            }
+
+        }
+
+        let contract = this.initContract(abiJson, address);
+
+        await cache.set(cacheKey, contract);
+
+        return contract;
     }
 
     /**
