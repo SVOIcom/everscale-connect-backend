@@ -19,6 +19,7 @@
  * @version 1.0
  */
 const _App = require('./_App');
+const Utils = require('../modules/Utils.js');
 
 const DEFAULT_SERVER = 'eri01.main.everos.dev'
 
@@ -35,9 +36,10 @@ class EverscaleBackendProvider extends _App {
 
         let callLog = `Call: ${method} ${address} ${networkServer}`;
 
+
         // console.time(callLog);
 
-        let result = await this.cache.load(`${method}-${address}-${networkServer}-${JSON.stringify(this.post.input)}`, async () => {
+        let result = await this.cache.load(Utils.md5(`${method}-${address}-${networkServer}-${JSON.stringify(this.post.input)}`), async () => {
             let EVER = await require('../modules/utils/EVER')(networkServer);
 
 
@@ -48,7 +50,7 @@ class EverscaleBackendProvider extends _App {
             } catch (e) {
 
                 console.log(callLog, 'ERROR', e)
-                return {status: 'error', error: e.message, encodedError: JSON.stringify(e),  _cacheId: Math.random()};
+                return {status: 'error', error: e.message, encodedError: JSON.stringify(e), _cacheId: Math.random()};
             }
         }, RUN_LOCAL_CACHE_TIME);
 
@@ -63,7 +65,7 @@ class EverscaleBackendProvider extends _App {
         let callLog = `Payload: ${method} ${networkServer}`;
 
         // console.time(callLog);
-        let result = await this.cache.load(`${method}-${networkServer}-${JSON.stringify(this.post.input)}`, async () => {
+        let result = await this.cache.load(Utils.md5(`${method}-${networkServer}-${JSON.stringify(this.post.input)}`), async () => {
             let EVER = await require('../modules/utils/EVER')(networkServer)
 
             try {
@@ -92,6 +94,26 @@ class EverscaleBackendProvider extends _App {
         //  console.timeEnd(callLog);
         return result;
 
+    }
+
+    async queryCollection(networkServer = DEFAULT_SERVER) {
+        let result = await this.cache.load(Utils.md5(`${JSON.stringify(this.post.query)}`), async () => {
+            let EVER = await require('../modules/utils/EVER')(networkServer);
+
+
+            try {
+                let result = await EVER.net.query_collection(this.post.query);
+
+
+                return {status: 'ok', result, _cacheId: Math.random()}
+            } catch (e) {
+
+                return {status: 'error', error: e.message, encodedError: JSON.stringify(e), _cacheId: Math.random()};
+            }
+        }, RUN_LOCAL_CACHE_TIME);
+
+        // console.timeEnd(callLog);
+        return result;
     }
 
 

@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 module.exports = {
 
 
@@ -30,5 +32,10 @@ module.exports = {
         let searcherStr = JSON.stringify(objects);
         return JSON.stringify({down: searcherStr.toLowerCase(), up: searcherStr.toUpperCase()});
     },
+
+    /** Method which makes md5 hash */
+    md5(str) {
+        return crypto.createHash('md5').update(str).digest('hex');
+    }
 
 }
