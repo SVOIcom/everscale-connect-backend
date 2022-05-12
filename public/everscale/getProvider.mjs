@@ -21,7 +21,7 @@
 
 
 //Resolve version
-import {default as getProvider, PROVIDERS, UTILS, CONSTANTS} from "./0.1.1/getProvider.mjs"
+import {default as getProvider, PROVIDERS, UTILS, CONSTANTS} from "./0.1.3/getProvider.mjs"
 
 //Export
 export {getProvider as default, PROVIDERS, UTILS, CONSTANTS};
