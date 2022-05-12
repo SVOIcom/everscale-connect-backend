@@ -11,14 +11,24 @@ const REVERSE_NETWORKS = {
     'main3.ton.dev': 'main',
     'main4.ton.dev': 'main',
     'alwaysonlineevermainnode.svoi.dev': 'main',
+    "eri01.main.everos.dev": 'main',
+    "gra01.main.everos.dev": 'main',
+    "gra02.main.everos.dev": 'main',
+    "lim01.main.everos.dev": 'main',
+    "rbx01.main.everos.dev": 'main',
     'net.ton.dev': 'test',
+    'net1.ton.dev': 'test',
+    'net2.ton.dev': 'test',
+    'eri01.net.everos.dev': 'test',
+    'rbx01.net.everos.dev': 'test',
+    'gra01.net.everos.dev': 'test',
     'localhost': 'local'
 }
 
 const EXPLORERS = {
-    test: 'net.ton.live',
-    main: 'main.ton.live',
-    local: 'main.ton.live',
+    test: 'net.ever.live',
+    main: 'main.ever.live',
+    local: 'main.ever.live',
 }
 
 const EMPTY_ADDRESS = "0:0000000000000000000000000000000000000000000000000000000000000000";
