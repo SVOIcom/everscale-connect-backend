@@ -23,7 +23,6 @@ import {} from '../../thirdparty/eventemitter3.min.js';
 import EverWeb from "./providers/EverWeb/EverWeb.mjs";
 import EverscaleWallet from "./providers/EverscaleWallet/EverscaleWallet.mjs";
 import EVERWallet from "./providers/EVERWallet/EVERWallet.mjs?v=1";
-import ExtraTon from "./providers/ExtraTon/ExtraTon.mjs";
 import EverBackendWeb from "./providers/EverBackendWeb/EverBackendWeb.mjs";
 import utils from "./utils.mjs";
 import * as CONSTANTS from "./constants.mjs";
