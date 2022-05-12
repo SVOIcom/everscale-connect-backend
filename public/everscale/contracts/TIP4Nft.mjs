@@ -41,6 +41,13 @@ class TIP4Nft {
         return JSON.parse(data);
     }
 
+    async transferPayload(to, sendGasTo = this.address, callbacks = []) {
+        return await this.nftContract.transfer.payload({
+            to,
+            sendGasTo,
+            callbacks
+        })
+    }
 
 }
 

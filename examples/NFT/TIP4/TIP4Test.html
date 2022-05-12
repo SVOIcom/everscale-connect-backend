@@ -59,10 +59,9 @@
 
     let html = '';
 
-    for(let tokenAddress of userTokens) {
+    for (let tokenAddress of userTokens) {
         let nft = await tip4.getNftByAddress(tokenAddress);
         let info = await nft.getInfo();
-
 
 
         html += `    <div>
@@ -70,12 +69,10 @@
                       <img src="${info.preview.source}" style="width: 100px; image-rendering: pixelated">
                       <p>${info.description}</p>
                     </div><br>
-    `;
+                `;
     }
 
     document.getElementById('tokens').innerHTML = html;
-
-
 
 
 </script>
