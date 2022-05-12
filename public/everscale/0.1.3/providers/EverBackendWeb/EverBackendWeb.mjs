@@ -308,7 +308,7 @@ class EverBackendWeb extends EventEmitter3 {
         let $ = jQuery;
         //console.log('New jquery', $);
         let postResult = await $.post(BACKEND_PROVIDER_API_URL + 'queryCollection/' +
-            this.parent.networkServer, {
+            this.networkServer, {
                 query
             }
         );
