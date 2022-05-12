@@ -10,6 +10,7 @@ import Contract from "./Contract.mjs";
 import {ProviderRpcClient, hasEverscaleProvider} from './everscale-inpage-provider/dist/index.js';
 import {ABIS_URLS, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
 import loadEverWeb from "../EverWebLoader.mjs";
+import cache from "../../misc/cache.mjs";
 
 let ever = null;
 
@@ -306,11 +307,30 @@ class EVERWallet extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async loadContract(abiJson, address) {
-        if(typeof abiJson === 'string') {
-            abiJson = await ((await fetch(abiJson))).json();
+        let cacheKey = String(abiJson) + address;
+
+        let cached = await cache.get(cacheKey);
+        if(cached) {
+            return cached;
         }
 
-        return this.initContract(abiJson, address)
+        if(typeof abiJson === 'string') {
+            let url = abiJson;
+            let cachedAbi = await cache.get(url);
+            if(cachedAbi) {
+                abiJson = cachedAbi;
+            } else {
+                abiJson = await ((await fetch(abiJson))).json();
+                await cache.set(url, abiJson);
+            }
+
+        }
+
+        let contract = this.initContract(abiJson, address);
+
+        await cache.set(cacheKey, contract);
+
+        return contract;
     }
 
     /**
