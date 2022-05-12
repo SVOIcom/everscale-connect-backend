@@ -76,13 +76,13 @@ class TIP4Collection {
 
         //Make GQL request for hash
 
-        let collectionResult = await  this.ton.queryCollection({
+        let collectionResult = (await this.ton.queryCollection({
             collection: 'accounts',
             filter: {
-                code_hash: { eq: codehash },
+                code_hash: {eq: codehash},
             },
-            result: 'balance'
-        })
+            result: 'id'
+        })).result;
 
         console.log("collectionResult", collectionResult);
 
@@ -92,7 +92,6 @@ class TIP4Collection {
 
     async getNftByAddress(address) {
         let nft = await (new TIP4Nft(this.ton)).init(address);
-
 
 
         return nft;
