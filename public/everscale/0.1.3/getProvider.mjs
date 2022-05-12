@@ -46,10 +46,6 @@ const PROVIDERS = {
     /**
      * @deprecated
      */
-    ExtraTON: 'extraton',
-    /**
-     * @deprecated
-     */
     TonWallet: 'tonwallet',
     /**
      * @deprecated
@@ -71,7 +67,6 @@ const PROVIDERS_INSTANCES = {
     tonweb: EverWeb,
     tonbackendweb: EverBackendWeb,
     crystalwallet: EVERWallet,
-    extraton: ExtraTon,
     tonwallet: EverscaleWallet,
 }
 
