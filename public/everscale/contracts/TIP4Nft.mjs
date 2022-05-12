@@ -27,12 +27,16 @@ class TIP4Nft {
         return this;
     }
 
-    async getInfo() {
+    async getMoreInfo() {
         return (await this.nftContract.getInfo({answerId: 0}));
 
     }
 
-    async getTokenInfo() {
+    async getInfo() {
+        return {...await this.getMoreInfo(), ...await this.getTokenMetadata()};
+    }
+
+    async getTokenMetadata() {
         let data = (await this.metadataContract.getJson({answerId: 0})).json;
         return JSON.parse(data);
     }

@@ -63,8 +63,17 @@
         let nft = await tip4.getNftByAddress(tokenAddress);
         let info = await nft.getInfo();
 
-        html += `<div>${nft.name}</div>`;
+
+
+        html += `    <div>
+                      <h3>${info.name}</h3>
+                      <img src="${info.preview.source}" style="width: 100px; image-rendering: pixelated">
+                      <p>${info.description}</p>
+                    </div><br>
+    `;
     }
+
+    document.getElementById('tokens').innerHTML = html;
 
 
 
