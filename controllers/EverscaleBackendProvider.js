@@ -48,7 +48,7 @@ class EverscaleBackendProvider extends _App {
             } catch (e) {
 
                 console.log(callLog, 'ERROR', e)
-                return {status: 'error', error: e.message, encodedError: JSON.stringify(e),  _cacheId: Math.random()};
+                return {status: 'error', error: e.message, encodedError: JSON.stringify(e), _cacheId: Math.random()};
             }
         }, RUN_LOCAL_CACHE_TIME);
 
@@ -92,6 +92,26 @@ class EverscaleBackendProvider extends _App {
         //  console.timeEnd(callLog);
         return result;
 
+    }
+
+    async queryCollection(networkServer = DEFAULT_SERVER) {
+        let result = await this.cache.load(`${JSON.stringify(this.post.query)}`, async () => {
+            let EVER = await require('../modules/utils/EVER')(networkServer);
+
+
+            try {
+                let result = await EVER.net.query_collection(this.post.query);
+
+
+                return {status: 'ok', result, _cacheId: Math.random()}
+            } catch (e) {
+
+                return {status: 'error', error: e.message, encodedError: JSON.stringify(e), _cacheId: Math.random()};
+            }
+        }, RUN_LOCAL_CACHE_TIME);
+
+        // console.timeEnd(callLog);
+        return result;
     }
 
 

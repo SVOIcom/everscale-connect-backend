@@ -401,7 +401,14 @@ class EVERWallet extends EventEmitter3 {
         return await this.provider.verifySignature(data);
     }
 
-
+    /**
+     * Query collection
+     * @param {object} query
+     * @returns {Promise<*>}
+     */
+    async queryCollection(query) {
+        return await this.ever.net.query_collection(query);
+    }
 
 }
 

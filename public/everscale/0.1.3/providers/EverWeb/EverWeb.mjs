@@ -278,6 +278,15 @@ class EverWeb extends EventEmitter3 {
     async revokePermissions() {
         return true;
     }
+
+    /**
+     * Query collection
+     * @param {object} query
+     * @returns {Promise<*>}
+     */
+    async queryCollection(query) {
+        return await this.ton.net.query_collection(query);
+    }
 }
 
 export default EverWeb;

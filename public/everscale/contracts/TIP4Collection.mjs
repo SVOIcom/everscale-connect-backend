@@ -92,7 +92,7 @@ class TIP4Collection {
      */
     async getOwnerNfts(owner) {
         let codehash = await this.nftIndexHelper.resolveCodeHashNftIndex(this.address, owner);
-        console.log("codehash", codehash);
+        //console.log("codehash", codehash);
 
         //Make GQL request for hash
 

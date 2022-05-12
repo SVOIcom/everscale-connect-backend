@@ -359,9 +359,6 @@ class EverscaleWallet extends EventEmitter3 {
         return await this.provider.everscale.verifySignature(data);
     }
 
-    async gqlQuery(query, variables = {}) {
-
-    }
 
     /**
      * Query collection

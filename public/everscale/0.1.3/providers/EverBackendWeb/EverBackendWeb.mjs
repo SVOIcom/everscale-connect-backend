@@ -7,8 +7,16 @@
 
 import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
-import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, STATUS_UPDATE_INTERVAL} from "../../constants.mjs";
+import {
+    NETWORKS,
+    REVERSE_NETWORKS,
+    EXPLORERS,
+    SAFE_MULTISIG_ABI,
+    STATUS_UPDATE_INTERVAL,
+    BACKEND_PROVIDER_API_URL
+} from "../../constants.mjs";
 import utils from "../../utils.mjs";
+import jQuery from "../jQuery.mjs";
 
 
 /**
@@ -39,12 +47,12 @@ class EverBackendWeb extends EventEmitter3 {
         this.watchdogTimer = null;
     }
 
-    get ton(){
+    get ton() {
         console.log('Using ton parameter is deprecated. Use ever instead.');
         return this.ever;
     }
 
-    set ton(value){
+    set ton(value) {
         console.log('Using ton parameter is deprecated. Use ever instead.');
         this.ever = value;
     }
@@ -289,6 +297,27 @@ class EverBackendWeb extends EventEmitter3 {
      */
     async revokePermissions() {
         return true;
+    }
+
+    /**
+     * Query collection
+     * @param {object} query
+     * @returns {Promise<*>}
+     */
+    async queryCollection(query) {
+        let $ = jQuery;
+        //console.log('New jquery', $);
+        let postResult = await $.post(BACKEND_PROVIDER_API_URL + 'queryCollection/' +
+            this.parent.networkServer, {
+                query
+            }
+        );
+
+        if(postResult.status === 'error') {
+            throw JSON.parse(postResult.encodedError)
+        }
+
+        return postResult.result;
     }
 }
 
