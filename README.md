@@ -6,6 +6,7 @@ Provider available at https://everscale-connect.svoi.dev/everscale/getProvider.m
 * Removed ExtraTon support
 * Added queryCollection method for all providers. Using same as *.net.query_collection from
 * Add wrapper contracts from TIP-4 tokens 
+* ABI and contract caching
 
 ## Connection
 
