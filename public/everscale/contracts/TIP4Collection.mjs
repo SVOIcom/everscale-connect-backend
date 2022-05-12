@@ -1,4 +1,4 @@
-import {CONSTANTS, UTILS as utils} from "../getProvider.mjs";
+import {CONSTANTS} from "../getProvider.mjs";
 import TIP4Nft from "./TIP4Nft.mjs";
 import NFTIndexHelper from "./NFTIndexHelper.mjs";
 
@@ -63,13 +63,33 @@ class TIP4Collection {
         return (await this.collection43Contract.indexCodeHash({"answerId": 0})).hash;
     }
 
-    async getNft(id) {
-        let nftAddress = await this.getNftAddress(id);
-        let nft = await (new TIP4Nft(this.ton)).init(nftAddress);
 
-        return nft;
+    /**
+     * Get nft object by address
+     * @param address
+     * @returns {Promise<TIP4Nft>}
+     */
+    async getNftByAddress(address) {
+        return await (new TIP4Nft(this.ton)).init(address);
     }
 
+
+    /**
+     * Get nft by id
+     * @param id
+     * @returns {Promise<TIP4Nft>}
+     */
+    async getNft(id) {
+        let nftAddress = await this.getNftAddress(id);
+        return await this.getNftByAddress(nftAddress);
+    }
+
+    /**
+     * Get all owner nfts
+     * TODO: Its to slow. Need to optimize
+     * @param owner
+     * @returns {Promise<*[]>}
+     */
     async getOwnerNfts(owner) {
         let codehash = await this.nftIndexHelper.resolveCodeHashNftIndex(this.address, owner);
         console.log("codehash", codehash);
@@ -89,17 +109,10 @@ class TIP4Collection {
         for (let {id} of collectionResult) {
             let basis = await this.getIndexBasis(id);
             let tokenInfo = await basis.getInfo({"answerId": 0});
-            nfts.push(tokenInfo);
+            nfts.push(tokenInfo.nft);
         }
 
         return nfts;
-    }
-
-    async getNftByAddress(address) {
-        let nft = await (new TIP4Nft(this.ton)).init(address);
-
-
-        return nft;
     }
 
 

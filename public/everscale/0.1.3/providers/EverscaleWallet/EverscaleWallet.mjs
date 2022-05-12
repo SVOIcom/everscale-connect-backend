@@ -8,8 +8,17 @@
 import Contract from "./Contract.mjs";
 import utils from "../../utils.mjs";
 
-import {NETWORKS, REVERSE_NETWORKS, EXPLORERS, SAFE_MULTISIG_ABI, STATUS_UPDATE_INTERVAL, ABIS_URLS} from "../../constants.mjs";
+import {
+    NETWORKS,
+    REVERSE_NETWORKS,
+    EXPLORERS,
+    SAFE_MULTISIG_ABI,
+    STATUS_UPDATE_INTERVAL,
+    ABIS_URLS
+} from "../../constants.mjs";
 import loadEverWeb from "../EverWebLoader.mjs";
+import cache from "../../misc/cache.mjs";
+
 
 /**
  * extraTON provider class
@@ -40,6 +49,7 @@ class EverscaleWallet extends EventEmitter3 {
         this.walletBalance = 0;
 
         this.network = 'main';
+
 
     }
 
@@ -249,11 +259,22 @@ class EverscaleWallet extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async loadContract(abiJson, address) {
+        let cacheKey = String(abiJson) + address;
+
+        let cached = await cache.get(cacheKey);
+        if(cached) {
+            return cached;
+        }
+
         if(typeof abiJson === 'string') {
             abiJson = await ((await fetch(abiJson))).json();
         }
 
-        return this.initContract(abiJson, address)
+        let contract = this.initContract(abiJson, address);
+
+        await cache.set(cacheKey, contract);
+
+        return contract;
     }
 
     /**
@@ -299,7 +320,7 @@ class EverscaleWallet extends EventEmitter3 {
      * @param data
      * @returns {Promise<*>}
      */
-    async signDataRaw(publicKey, data = ''){
+    async signDataRaw(publicKey, data = '') {
         return await this.provider.accounts.signDataRaw(publicKey, data);
     }
 
@@ -308,7 +329,7 @@ class EverscaleWallet extends EventEmitter3 {
      * @param data
      * @returns {Promise<*>}
      */
-    async packIntoCell(data){
+    async packIntoCell(data) {
         return await this.provider.everscale.packIntoCell(data);
     }
 
@@ -317,7 +338,7 @@ class EverscaleWallet extends EventEmitter3 {
      * @param data
      * @returns {Promise<*>}
      */
-    async unpackFromCell(data){
+    async unpackFromCell(data) {
         return await this.provider.everscale.unpackFromCell(data);
     }
 
@@ -326,7 +347,7 @@ class EverscaleWallet extends EventEmitter3 {
      * @param data
      * @returns {Promise<*>}
      */
-    async verifySignature(data){
+    async verifySignature(data) {
         return await this.provider.everscale.verifySignature(data);
     }
 
@@ -339,7 +360,7 @@ class EverscaleWallet extends EventEmitter3 {
      * @param {object} query
      * @returns {Promise<*>}
      */
-    async queryCollection(query){
+    async queryCollection(query) {
         return await this.ton.net.query_collection(query);
     }
 

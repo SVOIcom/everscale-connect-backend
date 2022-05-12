@@ -1,17 +1,10 @@
-/*
-  _______          _____                _     _
- |__   __|        |  __ \              (_)   | |
-    | | ___  _ __ | |__) | __ _____   ___  __| | ___ _ __
-    | |/ _ \| '_ \|  ___/ '__/ _ \ \ / / |/ _` |/ _ \ '__|
-    | | (_) | | | | |   | | | (_) \ V /| | (_| |  __/ |
-    |_|\___/|_| |_|_|   |_|  \___/ \_/ |_|\__,_|\___|_|
- */
 /**
- * @name FreeTON connection provider
+ * @name Everscale connection provider
  * @copyright SVOI.dev Labs - https://svoi.dev
  * @license Apache-2.0
  * @version 1.0
  */
+
 
 const utils = {
     /**
