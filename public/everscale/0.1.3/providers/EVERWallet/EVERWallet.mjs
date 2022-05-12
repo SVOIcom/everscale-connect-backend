@@ -15,42 +15,46 @@ import cache from "../../misc/cache.mjs";
 let ever = null;
 
 const NETWORKS = {
-    main: 'main3.ton.dev',
-    test: 'net.ton.dev'
+    main: 'alwaysonlineevermainnode.svoi.dev',
+    test: 'lim01.main.everos.dev'
 };
 
 const REVERSE_NETWORKS = {
     'main.ton.dev': 'main',
     'main2.ton.dev': 'main',
     'main3.ton.dev': 'main',
+    'alwaysonlineevermainnode.svoi.dev': 'main',
     'net.ton.dev': 'test',
 
     'Mainnet (GQL 3)': 'main',
     'Mainnet (GQL 2)': 'main',
     'Mainnet (GQL 1)': 'main',
+    'Mainnet (GQL)': 'main',
     'Mainnet (ADNL)': 'main',
     'Testnet': 'test',
-    'fld.ton.dev': 'test'
+    'fld.ton.dev': 'test',
+    'lim01.main.everos.dev': 'test'
 
 }
 
 const NETWORKS_COMPILABILITY = {
 
-    'Mainnet (GQL 3)': 'main3.ton.dev',
-    'Mainnet (GQL 2)': 'main3.ton.dev',
-    'Mainnet (GQL 1)': 'main3.ton.dev',
-    'Mainnet (ADNL)': 'main3.ton.dev',
-    'Testnet': 'net.ton.dev',
-    'testnet': 'net.ton.dev',
-    'fld.ton.dev': 'net.ton.dev',
-    'mainnet': 'main3.ton.dev'
+    'Mainnet (GQL 3)': 'alwaysonlineevermainnode.svoi.dev',
+    'Mainnet (GQL 2)': 'alwaysonlineevermainnode.svoi.dev',
+    'Mainnet (GQL 1)': 'alwaysonlineevermainnode.svoi.dev',
+    'Mainnet (ADNL)': 'alwaysonlineevermainnode.svoi.dev',
+    'Testnet': 'lim01.main.everos.dev',
+    'testnet': 'lim01.main.everos.dev',
+    'fld.ton.dev': 'lim01.main.everos.dev',
+    'lim01.main.everos.dev': 'lim01.main.everos.dev',
+    'mainnet': 'alwaysonlineevermainnode.svoi.dev'
 
 }
 
 const EXPLORERS = {
-    test: 'net.ton.live',
-    main: 'main.ton.live',
-    local: 'main.ton.live',
+    test: 'net.ever.live',
+    main: 'main.ever.live',
+    local: 'main.ever.live',
 }
 
 

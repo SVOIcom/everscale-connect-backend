@@ -57,6 +57,14 @@
 
     let userTokens = await tip4.getOwnerNfts(DEMO_ADDRESS);
 
+    async function transferToken(tokenId, to, returnGasTo) {
+        let nft = await tip4.getNft(tokenId);
+        let payload = await nft.transferPayload(to, returnGasTo);
+        await EVER.walletTransfer(nft.address, 3e9, payload)
+    }
+
+    window.transferToken = transferToken;
+
     let html = '';
 
     for (let tokenAddress of userTokens) {
