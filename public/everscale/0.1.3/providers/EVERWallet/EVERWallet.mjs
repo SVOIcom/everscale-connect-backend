@@ -84,6 +84,8 @@ class EVERWallet extends EventEmitter3 {
 
         this.network = options.network;
 
+        this.walletName = 'EVERWallet';
+
     }
 
     /**

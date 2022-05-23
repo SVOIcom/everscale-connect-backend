@@ -41,7 +41,14 @@ class TIP4Nft {
         return JSON.parse(data);
     }
 
-    async transferPayload(to, sendGasTo = this.address, callbacks = {}) {
+    async transferPayload(to, sendGasTo = this.address, callbacks = []) {
+
+        //TODO Fix this hack
+        if(this.ton.walletName !== 'EVERWallet') {
+            if(callbacks.length === 0) {
+                callbacks = {};
+            }
+        }
         return await this.nftContract.transfer.payload({
             to,
             sendGasTo,
