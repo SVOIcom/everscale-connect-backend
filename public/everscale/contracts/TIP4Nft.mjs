@@ -41,13 +41,35 @@ class TIP4Nft {
         return JSON.parse(data);
     }
 
-    async transferPayload(to, sendGasTo = this.address, callbacks = []) {
+    async transferPayload(to, sendGasTo = this.address, callbacks = {}) {
+
+        /**
+         * Callbacks is an object like this:
+         *  {
+         *      {"0:121c70d1bc61ce1656ab0a73540bcdd81c7e033ef4c7396a2d4b9ab686fe959e":{value: '2000000000', payload: 'te6ccgEBAQEAEgAAIAAAAAAAAAAAAAAJGE5yoAA='}}
+         *        ^ - this one is callback receiver                                   ^ - this one is callback params with encoded payload
+         *  }
+         *
+         *  EVERWallet can't handle callbacks in those format but we can convert it to this format:
+         *  [
+         *      [
+         *          "0:121c70d1bc61ce1656ab0a73540bcdd81c7e033ef4c7396a2d4b9ab686fe959e",
+         *          {value: '2000000000', payload: 'te6ccgEBAQEAEgAAIAAAAAAAAAAAAAAJGE5yoAA='}
+         *      ]
+         *  ]
+         *
+         *  So we just hotfix it here but TODO fix it in EVERWallet module
+         */
+
 
         //TODO Fix this hack
-        if(this.ton.walletName !== 'EVERWallet') {
-            if(callbacks.length === 0) {
-                callbacks = {};
+        if(this.ton.walletName === 'EVERWallet') {
+            let newCallbacks = [];
+
+            for (let callbackAddress in callbacks) {
+                newCallbacks.push([callbackAddress, callbacks[callbackAddress]]);
             }
+            callbacks = newCallbacks;
         }
         return await this.nftContract.transfer.payload({
             to,
