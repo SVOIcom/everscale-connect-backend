@@ -96,18 +96,33 @@ class TIP4Collection {
 
         //Make GQL request for hash
 
-        let collectionResult = (await this.ton.queryCollection({
-            collection: 'accounts',
-            filter: {
-                code_hash: {eq: codehash},
-            },
-            result: 'id',
-            limit: maxItems
-        })).result;
+        let collectionResult;
+        let nextFilter = {};
+        let collectionAll = [];
+        while (true) {
+
+            collectionResult = (await this.ton.queryCollection({
+                collection: 'accounts',
+                filter: {
+                    code_hash: {eq: codehash},
+                    ...nextFilter
+                },
+                result: 'id',
+                limit: maxItems
+            })).result;
+
+            collectionAll = [...collectionAll, ...collectionResult];
+
+            if(collectionAll.length < 50){
+                break;
+            }
+            nextFilter = {id: {gt: collectionResult[49].id}};
+
+        }
 
         let nfts = [];
 
-        for (let {id} of collectionResult) {
+        for (let {id} of collectionAll) {
             let basis = await this.getIndexBasis(id);
             let tokenInfo = await basis.getInfo({"answerId": 0});
             nfts.push(tokenInfo.nft);
