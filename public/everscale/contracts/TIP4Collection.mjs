@@ -113,7 +113,7 @@ class TIP4Collection {
 
             collectionAll = [...collectionAll, ...collectionResult];
 
-            if(collectionAll.length < 50){
+            if(collectionResult.length < 50){
                 break;
             }
             nextFilter = {id: {gt: collectionResult[49].id}};
