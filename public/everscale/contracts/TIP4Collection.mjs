@@ -90,7 +90,7 @@ class TIP4Collection {
      * @param owner
      * @returns {Promise<*[]>}
      */
-    async getOwnerNfts(owner) {
+    async getOwnerNfts(owner, maxItems = 1000) {
         let codehash = await this.nftIndexHelper.resolveCodeHashNftIndex(this.address, owner);
         //console.log("codehash", codehash);
 
@@ -101,7 +101,8 @@ class TIP4Collection {
             filter: {
                 code_hash: {eq: codehash},
             },
-            result: 'id'
+            result: 'id',
+            limit: maxItems
         })).result;
 
         let nfts = [];
